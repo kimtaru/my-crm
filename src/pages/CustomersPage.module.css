@@ -1,0 +1,177 @@
+.page {
+  padding: 24px 32px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* 페이지 헤더 */
+.pageHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.pageCount {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* 테이블 구조 스타일 */
+.tableWrap {
+  border: 1px solid #334155;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table thead tr {
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.tr {
+  border-bottom: 1px solid #1e293b;
+  transition: background-color 0.15s;
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+.tr:hover {
+  background-color: rgba(51, 65, 85, 0.4);
+}
+
+.td {
+  padding: 12px 16px;
+  color: #cbd5e1;
+  vertical-align: middle;
+}
+
+/* 편집 셀 스타일 */
+.editWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.editInput {
+  padding: 4px 8px;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  background-color: #1e293b;
+  color: #f1f5f9;
+  font-size: 13px;
+  outline: none;
+}
+
+.editInput:focus {
+  border-color: #3b82f6;
+}
+
+.editSaveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #4ade80;
+  cursor: pointer;
+}
+
+.editSaveBtn:hover {
+  background-color: rgba(34, 197, 94, 0.15);
+}
+
+.editCancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.editCancelBtn:hover {
+  background-color: rgba(100, 116, 139, 0.15);
+}
+
+/* 셀 스타일 (Table 컴포넌트 render에서 사용) */
+.cellId {
+  font-size: 12px;
+  color: #475569;
+  font-family: monospace;
+}
+
+.cellName {
+  font-weight: 500;
+  color: #f1f5f9;
+}
+
+.cellMono {
+  font-family: monospace;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.cellEmpty {
+  color: #334155;
+}
+
+.domainBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stActive {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stInactive {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(100, 116, 139, 0.12);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+
