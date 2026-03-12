@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 export type SortDirection = 'asc' | 'desc'
 
@@ -13,6 +13,8 @@ export interface ColumnDef<T> {
   render?: (row: T) => React.ReactNode
   editable?: boolean
   sortable?: boolean
+  insertable?: boolean
+  width?: string
 }
 
 export interface TableClassNames {
@@ -23,6 +25,8 @@ export interface TableClassNames {
   tbody?: string
   tr?: string
   td?: string
+  checkbox?: string
+  checkboxChecked?: string
 }
 
 interface TableProps<T> {
@@ -36,9 +40,16 @@ interface TableProps<T> {
   sort?: SortState | null
   onSortChange?: (sort: SortState | null) => void
   sortIcons?: SortIcons
+  selectable?: boolean
+  selectedKeys?: string[]
+  onSelectedKeysChange?: (keys: string[]) => void
   deletable?: boolean
   onRowDelete?: (rowKey: string) => void
   deleteIcon?: React.ReactNode
+  addingRow?: boolean
+  onRowAdd?: (values: Record<string, string>) => void
+  onAddingRowCancel?: () => void
+  addIcon?: React.ReactNode
 }
 
 export interface SortIcons {
@@ -100,10 +111,26 @@ const DEFAULT_SORT_ICONS: Required<SortIcons> = {
   ),
 }
 
-export default function Table<T>({ columns, data, rowKey, classNames, onCellChange, editIcon, renderEditCell, sort, onSortChange, sortIcons, deletable, onRowDelete, deleteIcon }: TableProps<T>) {
+export default function Table<T>({ columns, data, rowKey, classNames, onCellChange, editIcon, renderEditCell, sort, onSortChange, sortIcons, selectable, selectedKeys, onSelectedKeysChange, deletable, onRowDelete, deleteIcon, addingRow, onRowAdd, onAddingRowCancel, addIcon }: TableProps<T>) {
   const icons = { ...DEFAULT_SORT_ICONS, ...sortIcons }
   const [editingCell, setEditingCell] = useState<{ rowKey: string; colKey: string } | null>(null)
   const [editValue, setEditValue] = useState('')
+  const [addValues, setAddValues] = useState<Record<string, string>>({})
+
+  const selected = selectedKeys ?? []
+  const allKeys = useMemo(() => data.map((row) => rowKey(row)), [data, rowKey])
+  const allSelected = allKeys.length > 0 && allKeys.every((k) => selected.includes(k))
+
+  const toggleOne = useCallback((key: string) => {
+    const next = selected.includes(key)
+      ? selected.filter((k) => k !== key)
+      : [...selected, key]
+    onSelectedKeysChange?.(next)
+  }, [selected, onSelectedKeysChange])
+
+  const toggleAll = useCallback(() => {
+    onSelectedKeysChange?.(allSelected ? [] : allKeys)
+  }, [allSelected, allKeys, onSelectedKeysChange])
 
   const startEdit = (rk: string, colKey: string, currentValue: string) => {
     setEditingCell({ rowKey: rk, colKey })
@@ -193,11 +220,44 @@ export default function Table<T>({ columns, data, rowKey, classNames, onCellChan
     })
   }, [data, sort])
 
+  const confirmAdd = () => {
+    onRowAdd?.(addValues)
+    setAddValues({})
+  }
+
+  const cancelAdd = () => {
+    onAddingRowCancel?.()
+    setAddValues({})
+  }
+
+  const hasActionColumn = deletable || addingRow
+
+  const checkboxStyle: React.CSSProperties = { width: 16, height: 16, cursor: 'pointer', accentColor: '#4f46e5' }
+
   return (
     <div className={classNames?.wrap}>
-      <table className={classNames?.table}>
+      <table className={classNames?.table} style={{ tableLayout: 'fixed' }}>
+        <colgroup>
+          {selectable && <col style={{ width: '40px' }} />}
+          {columns.map((col) => (
+            <col key={col.key} style={col.width ? { width: col.width } : undefined} />
+          ))}
+          {hasActionColumn && <col style={{ width: '48px' }} />}
+        </colgroup>
         <thead className={classNames?.thead}>
           <tr>
+            {selectable && (
+              <th className={classNames?.th} style={{ textAlign: 'center' }}>
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={toggleAll}
+                  className={`${classNames?.checkbox ?? ''} ${allSelected ? classNames?.checkboxChecked ?? '' : ''}`.trim() || undefined}
+                  style={checkboxStyle}
+                  aria-label="전체 선택"
+                />
+              </th>
+            )}
             {columns.map((col) => {
               const isSorted = sort?.key === col.key
               const direction = isSorted ? sort.direction : null
@@ -231,33 +291,83 @@ export default function Table<T>({ columns, data, rowKey, classNames, onCellChan
                 </th>
               )
             })}
-            {deletable && <th className={classNames?.th} />}
+            {hasActionColumn && <th className={classNames?.th} />}
           </tr>
         </thead>
         <tbody className={classNames?.tbody}>
+          {addingRow && (
+            <tr className={classNames?.tr}>
+              {selectable && <td className={classNames?.td} />}
+              {columns.map((col) => (
+                <td key={col.key} className={classNames?.td}>
+                  {col.insertable ? (
+                    <input
+                      placeholder={col.label}
+                      value={addValues[col.key] ?? ''}
+                      onChange={(e) => setAddValues((prev) => ({ ...prev, [col.key]: e.target.value }))}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') confirmAdd()
+                        if (e.key === 'Escape') cancelAdd()
+                      }}
+                      style={{ padding: '4px 8px', width: '100%', boxSizing: 'border-box' }}
+                    />
+                  ) : null}
+                </td>
+              ))}
+              <td className={classNames?.td} style={{ textAlign: 'center' }}>
+                <button
+                  type="button"
+                  onClick={confirmAdd}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: 'inherit' }}
+                  aria-label="추가"
+                >
+                  {addIcon ?? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                  )}
+                </button>
+              </td>
+            </tr>
+          )}
           {sortedData.map((row) => {
             const rk = rowKey(row)
+            const isChecked = selected.includes(rk)
             return (
               <tr key={rk} className={classNames?.tr}>
+                {selectable && (
+                  <td className={classNames?.td} style={{ textAlign: 'center' }}>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => toggleOne(rk)}
+                      className={`${classNames?.checkbox ?? ''} ${isChecked ? classNames?.checkboxChecked ?? '' : ''}`.trim() || undefined}
+                      style={checkboxStyle}
+                      aria-label="행 선택"
+                    />
+                  </td>
+                )}
                 {columns.map((col) => (
                   <td key={col.key} className={classNames?.td}>
                     {renderCell(row, col, rk)}
                   </td>
                 ))}
-                {deletable && (
+                {hasActionColumn && (
                   <td className={classNames?.td} style={{ textAlign: 'center' }}>
-                    <button
-                      type="button"
-                      onClick={() => onRowDelete?.(rk)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: 'inherit', opacity: 0.4 }}
-                      aria-label="삭제"
-                    >
-                      {deleteIcon ?? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                        </svg>
-                      )}
-                    </button>
+                    {deletable && (
+                      <button
+                        type="button"
+                        onClick={() => onRowDelete?.(rk)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: 'inherit', opacity: 0.4 }}
+                        aria-label="삭제"
+                      >
+                        {deleteIcon ?? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                          </svg>
+                        )}
+                      </button>
+                    )}
                   </td>
                 )}
               </tr>
