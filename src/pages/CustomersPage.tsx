@@ -126,6 +126,8 @@ function InfiniteScrollTable() {
         data={customers}
         loading={isLoading}
         stickyHeader
+        virtualScroll
+        rowHeight={44}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
