@@ -105,7 +105,8 @@
 .tableWrap {
   border: 1px solid #334155;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: auto;
+  max-height: 600px;
 }
 
 .table {
@@ -353,5 +354,29 @@
 
 .headerMenuItem:hover {
   background-color: #334155;
+}
+
+/* 섹션 */
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.actionBar {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
 }
 

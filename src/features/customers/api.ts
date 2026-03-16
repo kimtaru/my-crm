@@ -11,7 +11,6 @@ export interface Customer {
   MAIN_CUSTOMER_ID: string | null
   REG_DT: string
   ADMIN_ID: string | null
-  MARKET_CAP?: number | null
 }
 
 export interface CustomerListResponse {
