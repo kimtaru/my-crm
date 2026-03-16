@@ -256,3 +256,102 @@
   font-weight: 500;
 }
 
+/* 필터 행 */
+.filterRow {
+  background-color: rgba(15, 23, 42, 0.6);
+  border-bottom: 1px solid #334155;
+}
+
+.filterCell {
+  padding: 6px 8px;
+}
+
+.filterInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  background-color: #0f172a;
+  color: #cbd5e1;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.filterInput::placeholder {
+  color: #475569;
+}
+
+.filterInput:focus {
+  border-color: #6366f1;
+}
+
+.filterSelect {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 24px 5px 10px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  background-color: #0f172a;
+  color: #cbd5e1;
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+.filterSelect:focus {
+  border-color: #6366f1;
+}
+
+/* 헤더 메뉴 */
+.headerMenuBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.headerMenuBtn:hover {
+  opacity: 1;
+}
+
+.headerMenuDropdown {
+  margin-top: 4px;
+  min-width: 140px;
+  border-radius: 6px;
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.headerMenuItem {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.headerMenuItem:hover {
+  background-color: #334155;
+}
+
