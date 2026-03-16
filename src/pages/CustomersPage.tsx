@@ -53,6 +53,10 @@ const TABLE_CLASS_NAMES = {
   headerMenuBtn: styles.headerMenuBtn,
   headerMenuDropdown: styles.headerMenuDropdown,
   headerMenuItem: styles.headerMenuItem,
+  addRow: styles.addRow,
+  addInput: styles.addInput,
+  addConfirmBtn: styles.addConfirmBtn,
+  addCancelBtn: styles.addCancelBtn,
 }
 
 function renderEditCellUI({ value, onChange, onSave, onCancel }: EditCellProps) {
@@ -121,6 +125,7 @@ function InfiniteScrollTable() {
         columns={COLUMNS}
         data={customers}
         loading={isLoading}
+        stickyHeader
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
