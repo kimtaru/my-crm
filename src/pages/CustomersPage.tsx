@@ -156,6 +156,17 @@ const TABLE_CLASS_NAMES = {
   addInput: styles.addInput,
   addConfirmBtn: styles.addConfirmBtn,
   addCancelBtn: styles.addCancelBtn,
+  columnManagerBackdrop: styles.columnManagerBackdrop,
+  columnManager: styles.columnManager,
+  columnManagerHeader: styles.columnManagerHeader,
+  columnManagerTitle: styles.columnManagerTitle,
+  columnManagerSelectAllBtn: styles.columnManagerSelectAllBtn,
+  columnManagerDeselectAllBtn: styles.columnManagerDeselectAllBtn,
+  columnManagerCloseBtn: styles.columnManagerCloseBtn,
+  columnManagerBody: styles.columnManagerBody,
+  columnToggle: styles.columnToggle,
+  columnToggleActive: styles.columnToggleActive,
+  columnToggleCheckbox: styles.columnToggleCheckbox,
 }
 
 function renderEditCellUI({ value, onChange, onSave, onCancel }: EditCellProps) {
@@ -194,6 +205,7 @@ function InfiniteScrollTable() {
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [showFilter, setShowFilter] = useState(false)
+  const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useCustomerInfiniteList()
 
@@ -227,6 +239,8 @@ function InfiniteScrollTable() {
         stickyHeader
         virtualScroll
         rowHeight={44}
+        hiddenKeys={hiddenKeys}
+        onHiddenKeysChange={setHiddenKeys}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
@@ -270,6 +284,7 @@ function PaginationTable() {
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [showFilter, setShowFilter] = useState(false)
+  const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
 
   const { data, isLoading } = useCustomerList({ page })
   const customers = data?.customers ?? []
@@ -297,6 +312,8 @@ function PaginationTable() {
         columns={COLUMNS}
         data={customers}
         loading={isLoading}
+        hiddenKeys={hiddenKeys}
+        onHiddenKeysChange={setHiddenKeys}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
