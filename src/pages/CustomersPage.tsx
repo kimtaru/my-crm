@@ -365,12 +365,17 @@ function PaginationTable() {
 }
 
 /* ── 지역별 그룹 테이블 ── */
-interface CustomerGroup {
-  area: string
+interface CustomerTypeGroup {
+  type: string
   customers: Customer[]
 }
 
-const GROUPED_DUMMY_DATA = _groupedData as CustomerGroup[]
+interface CustomerAreaGroup {
+  area: string
+  typeGroups: CustomerTypeGroup[]
+}
+
+const GROUPED_DUMMY_DATA = _groupedData as CustomerAreaGroup[]
 
 const CHILD_COLUMNS: ColumnDef<Customer>[] = [
   { key: 'CUSTOMER_ID', label: '고객 ID', width: '100px', sortable: true, filterType: 'text',
@@ -429,11 +434,22 @@ const CHILD_COLUMNS: ColumnDef<Customer>[] = [
     render: (c) => c.ADMIN_ID || <span className={styles.cellEmpty}>-</span> },
 ]
 
-const GROUP_EXPAND_DEF: ExpandDef<CustomerGroup, Customer> = {
+const TYPE_EXPAND_DEF: ExpandDef<CustomerTypeGroup, Customer> = {
   children: (g) => g.customers,
   childRowKey: (c) => c.CUSTOMER_ID,
   childColumns: CHILD_COLUMNS,
-  renderGroupLabel: (g) => <><strong>{g.area}</strong> <span style={{ opacity: 0.5, fontSize: 12 }}>({g.customers.length}건)</span></>,
+  renderGroupLabel: (g) => <><strong>{g.type}</strong> <span style={{ opacity: 0.5, fontSize: 12 }}>({g.customers.length}건)</span></>,
+}
+
+const AREA_EXPAND_DEF: ExpandDef<CustomerAreaGroup, CustomerTypeGroup> = {
+  children: (g) => g.typeGroups,
+  childRowKey: (g) => g.type,
+  childColumns: [] as ColumnDef<CustomerTypeGroup>[],
+  renderGroupLabel: (g) => {
+    const total = g.typeGroups.reduce((sum, tg) => sum + tg.customers.length, 0)
+    return <><strong>{g.area}</strong> <span style={{ opacity: 0.5, fontSize: 12 }}>({total}건)</span></>
+  },
+  childExpandDef: TYPE_EXPAND_DEF,
 }
 
 
@@ -445,7 +461,18 @@ function GroupedTable() {
   const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
   const [columnOrder, setColumnOrder] = useState(() => CHILD_COLUMNS.map((c) => c.key))
 
-  const totalCustomers = GROUPED_DUMMY_DATA.reduce((sum, g) => sum + g.customers.length, 0)
+  const totalCustomers = GROUPED_DUMMY_DATA.reduce((sum, g) => g.typeGroups.reduce((s, tg) => s + tg.customers.length, sum), 0)
+
+  const expandAll = () => {
+    const keys: string[] = []
+    GROUPED_DUMMY_DATA.forEach((g) => {
+      keys.push(g.area)
+      g.typeGroups.forEach((tg) => {
+        keys.push(`${g.area}::${tg.type}`)
+      })
+    })
+    setExpandedKeys(keys)
+  }
 
   return (
     <section className={styles.section}>
@@ -453,12 +480,12 @@ function GroupedTable() {
         <h2 className={styles.sectionTitle}>지역별 그룹</h2>
         <span className={styles.pageCount}>{GROUPED_DUMMY_DATA.length}개 지역 · 총 {totalCustomers}건</span>
       </div>
-      <Table<CustomerGroup>
-        columns={[] as ColumnDef<CustomerGroup>[]}
+      <Table<CustomerAreaGroup>
+        columns={[] as ColumnDef<CustomerAreaGroup>[]}
         data={GROUPED_DUMMY_DATA}
         rowKey={(g) => g.area}
         classNames={TABLE_CLASS_NAMES}
-        expandDef={GROUP_EXPAND_DEF}
+        expandDef={AREA_EXPAND_DEF}
         expandedKeys={expandedKeys}
         onExpandedKeysChange={setExpandedKeys}
         childSelectable
@@ -475,7 +502,7 @@ function GroupedTable() {
         columnOrder={columnOrder}
         onColumnOrderChange={setColumnOrder}
         headerMenuItems={[
-          { label: '전체 펼치기', onClick: () => setExpandedKeys(GROUPED_DUMMY_DATA.map((g) => g.area)) },
+          { label: '전체 펼치기', onClick: expandAll },
           { label: '전체 접기', onClick: () => setExpandedKeys([]) },
           { label: showFilter ? '필터 숨기기' : '필터', onClick: () => setShowFilter((v) => !v) },
           { label: '필터 초기화', onClick: () => setFilters({}) },
