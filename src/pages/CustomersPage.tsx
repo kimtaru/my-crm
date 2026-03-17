@@ -30,7 +30,7 @@ const COLUMNS: ColumnDef<Customer>[] = [
     render: (c) => c.CUSTOMER_DOMAIN_YN === 'Y' && c.CUSTOMER_DOMAIN
       ? <span className={styles.domainBadge}>{c.CUSTOMER_DOMAIN}</span>
       : <span className={styles.cellEmpty}>-</span> },
-  { key: 'CUSTOMER_DOMAIN_YN', label: '도메인 여부', sortable: true, width: '90px',
+  { key: 'CUSTOMER_DOMAIN_YN', label: '도메인 여부', sortable: true, width: '90px', align: 'center',
     filterType: 'select', filterOptions: [{ label: 'Y', value: 'Y' }, { label: 'N', value: 'N' }],
     render: (c) => (
       <span className={c.CUSTOMER_DOMAIN_YN === 'Y' ? styles.badgeY : styles.badgeN}>
