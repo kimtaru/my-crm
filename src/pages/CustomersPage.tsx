@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react'
-import { Table, type ColumnDef, type EditCellProps, type SortState } from 'mycrm'
+import { Table, type ColumnDef, type ExpandDef, type EditCellProps, type SortState } from 'mycrm'
 import { useCustomerInfiniteList } from '@/features/customers/hooks/useCustomerInfiniteList'
 import { useCustomerList } from '@/features/customers/hooks/useCustomerList'
 import Pagination from '@/components/Pagination'
 import type { Customer } from '@/features/customers/api'
 import styles from './CustomersPage.module.css'
+import _groupedData from './groupedCustomers.json'
 
 function formatDate(raw: string) {
   if (!raw || raw.length < 8) return '-'
@@ -363,11 +364,133 @@ function PaginationTable() {
   )
 }
 
+/* ── 지역별 그룹 테이블 ── */
+interface CustomerGroup {
+  area: string
+  customers: Customer[]
+}
+
+const GROUPED_DUMMY_DATA = _groupedData as CustomerGroup[]
+
+const CHILD_COLUMNS: ColumnDef<Customer>[] = [
+  { key: 'CUSTOMER_ID', label: '고객 ID', width: '100px', sortable: true, filterType: 'text',
+    render: (c) => <span className={styles.cellId}>{c.CUSTOMER_ID}</span> },
+  { key: 'CUSTOMER_NAME', label: '고객명', width: '180px', sortable: true, filterType: 'text',
+    render: (c) => <span className={styles.cellName}>{c.CUSTOMER_NAME.trim() || '-'}</span> },
+  { key: 'CEO_NAME', label: '대표자', width: '100px', sortable: true, filterType: 'text',
+    render: (c) => c.CEO_NAME || '-' },
+  { key: 'CORP_NO', label: '사업자번호', width: '130px', filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{c.CORP_NO || '-'}</span> },
+  { key: 'CUSTOMER_TYPE', label: '고객유형', width: '100px', sortable: true,
+    filterType: 'select', filterOptions: [
+      { label: '대기업', value: '대기업' }, { label: '중견기업', value: '중견기업' },
+      { label: '중소기업', value: '중소기업' }, { label: '스타트업', value: '스타트업' },
+    ],
+    render: (c) => c.CUSTOMER_TYPE || <span className={styles.cellEmpty}>-</span> },
+  { key: 'INDUSTRY', label: '업종', width: '120px', sortable: true, filterType: 'text',
+    render: (c) => c.INDUSTRY || <span className={styles.cellEmpty}>-</span> },
+  { key: 'CUSTOMER_ST', label: '상태', width: '80px', sortable: true,
+    filterType: 'select', filterOptions: [{ label: '활성', value: '00' }, { label: '비활성', value: '01' }],
+    render: (c) => (
+      <span className={c.CUSTOMER_ST === '00' ? styles.stActive : styles.stInactive}>
+        {c.CUSTOMER_ST === '00' ? '활성' : '비활성'}
+      </span>
+    )},
+  { key: 'CUSTOMER_GRADE', label: '등급', width: '70px', sortable: true,
+    filterType: 'select', filterOptions: [
+      { label: 'A', value: 'A' }, { label: 'B', value: 'B' },
+      { label: 'C', value: 'C' }, { label: 'D', value: 'D' },
+    ],
+    render: (c) => c.CUSTOMER_GRADE
+      ? <span className={styles[`grade${c.CUSTOMER_GRADE}` as keyof typeof styles]}>{c.CUSTOMER_GRADE}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'EMPLOYEE_CNT', label: '직원 수', width: '100px', sortable: true, filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{formatNumber(c.EMPLOYEE_CNT)}</span> },
+  { key: 'ANNUAL_REVENUE', label: '연매출(억)', width: '110px', sortable: true, filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{formatNumber(c.ANNUAL_REVENUE)}</span> },
+  { key: 'PHONE_NO', label: '전화번호', width: '130px', filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{c.PHONE_NO || '-'}</span> },
+  { key: 'EMAIL', label: '이메일', width: '180px', filterType: 'text',
+    render: (c) => c.EMAIL
+      ? <span className={styles.cellEmail}>{c.EMAIL}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'CITY', label: '도시', width: '80px', filterType: 'text',
+    render: (c) => c.CITY || '-' },
+  { key: 'CONTRACT_ST', label: '계약상태', width: '100px', sortable: true,
+    filterType: 'select', filterOptions: [
+      { label: '계약중', value: '계약중' }, { label: '계약만료', value: '계약만료' },
+      { label: '협의중', value: '협의중' }, { label: '없음', value: '없음' },
+    ],
+    render: (c) => c.CONTRACT_ST
+      ? <span className={styles[`contract${c.CONTRACT_ST}` as keyof typeof styles] || ''}>{c.CONTRACT_ST}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'ADMIN_ID', label: '담당자', width: '90px', sortable: true,
+    filterType: 'select', filterOptions: [{ label: '김철수', value: '김철수' }, { label: '박영희', value: '박영희' }, { label: '이민호', value: '이민호' }],
+    render: (c) => c.ADMIN_ID || <span className={styles.cellEmpty}>-</span> },
+]
+
+const GROUP_EXPAND_DEF: ExpandDef<CustomerGroup, Customer> = {
+  children: (g) => g.customers,
+  childRowKey: (c) => c.CUSTOMER_ID,
+  childColumns: CHILD_COLUMNS,
+  renderGroupLabel: (g) => <><strong>{g.area}</strong> <span style={{ opacity: 0.5, fontSize: 12 }}>({g.customers.length}건)</span></>,
+}
+
+
+function GroupedTable() {
+  const [expandedKeys, setExpandedKeys] = useState<string[]>([])
+  const [childSelectedKeys, setChildSelectedKeys] = useState<string[]>([])
+  const [filters, setFilters] = useState<Record<string, string>>({})
+  const [showFilter, setShowFilter] = useState(false)
+  const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
+  const [columnOrder, setColumnOrder] = useState(() => CHILD_COLUMNS.map((c) => c.key))
+
+  const totalCustomers = GROUPED_DUMMY_DATA.reduce((sum, g) => sum + g.customers.length, 0)
+
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.sectionTitle}>지역별 그룹</h2>
+        <span className={styles.pageCount}>{GROUPED_DUMMY_DATA.length}개 지역 · 총 {totalCustomers}건</span>
+      </div>
+      <Table<CustomerGroup>
+        columns={[] as ColumnDef<CustomerGroup>[]}
+        data={GROUPED_DUMMY_DATA}
+        rowKey={(g) => g.area}
+        classNames={TABLE_CLASS_NAMES}
+        expandDef={GROUP_EXPAND_DEF}
+        expandedKeys={expandedKeys}
+        onExpandedKeysChange={setExpandedKeys}
+        childSelectable
+        childSelectedKeys={childSelectedKeys}
+        onChildSelectedKeysChange={setChildSelectedKeys}
+        childDeletable
+        onChildRowDelete={(gk, ck) => console.log('그룹 삭제:', gk, ck)}
+        filterable={showFilter}
+        filters={filters}
+        onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
+        filterDebounce={300}
+        hiddenKeys={hiddenKeys}
+        onHiddenKeysChange={setHiddenKeys}
+        columnOrder={columnOrder}
+        onColumnOrderChange={setColumnOrder}
+        headerMenuItems={[
+          { label: '전체 펼치기', onClick: () => setExpandedKeys(GROUPED_DUMMY_DATA.map((g) => g.area)) },
+          { label: '전체 접기', onClick: () => setExpandedKeys([]) },
+          { label: showFilter ? '필터 숨기기' : '필터', onClick: () => setShowFilter((v) => !v) },
+          { label: '필터 초기화', onClick: () => setFilters({}) },
+        ]}
+      />
+    </section>
+  )
+}
+
 /* ── 메인 페이지 ── */
 export default function CustomersPage() {
   return (
     <div className={styles.page}>
       <h1 className={styles.pageTitle} style={{ marginBottom: 20 }}>고객 목록</h1>
+      <GroupedTable />
       <InfiniteScrollTable />
       <PaginationTable />
     </div>

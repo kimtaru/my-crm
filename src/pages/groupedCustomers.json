@@ -1,0 +1,31 @@
+[
+  {
+    "area": "서울",
+    "customers": [
+      { "CUSTOMER_ID": "C001", "CUSTOMER_NAME": "삼성전자", "CEO_NAME": "이재용", "CORP_NO": "124-81-00998", "CUSTOMER_DOMAIN": "samsung.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "전자", "EMPLOYEE_CNT": 26700, "ANNUAL_REVENUE": 3028900, "PHONE_NO": "02-2255-0114", "EMAIL": "contact@samsung.com", "ADDRESS": "서울 서초구 서초대로74길 11", "CITY": "서울", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230101", "CONTRACT_END_DT": "20251231", "LAST_CONTACT_DT": "20250310", "STOCK_YN": "Y", "ADMIN_ID": "김철수", "REG_DT": "20200115", "MEMO": "주요 고객" },
+      { "CUSTOMER_ID": "C002", "CUSTOMER_NAME": "LG전자", "CEO_NAME": "조주완", "CORP_NO": "107-86-14075", "CUSTOMER_DOMAIN": "lge.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "전자", "EMPLOYEE_CNT": 39000, "ANNUAL_REVENUE": 833700, "PHONE_NO": "02-3777-1114", "EMAIL": "info@lge.com", "ADDRESS": "서울 영등포구 여의대로 128", "CITY": "서울", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230301", "CONTRACT_END_DT": "20260228", "LAST_CONTACT_DT": "20250308", "STOCK_YN": "Y", "ADMIN_ID": "김철수", "REG_DT": "20200220", "MEMO": "" },
+      { "CUSTOMER_ID": "C003", "CUSTOMER_NAME": "카카오", "CEO_NAME": "정신아", "CORP_NO": "120-81-47521", "CUSTOMER_DOMAIN": "kakao.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "IT", "EMPLOYEE_CNT": 4200, "ANNUAL_REVENUE": 65800, "PHONE_NO": "1577-3321", "EMAIL": "biz@kakao.com", "ADDRESS": "서울 강남구 테헤란로 242", "CITY": "서울", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "협의중", "CONTRACT_DT": "", "CONTRACT_END_DT": "", "LAST_CONTACT_DT": "20250312", "STOCK_YN": "Y", "ADMIN_ID": "박영희", "REG_DT": "20210610", "MEMO": "" }
+    ]
+  },
+  {
+    "area": "대구",
+    "customers": [
+      { "CUSTOMER_ID": "C010", "CUSTOMER_NAME": "대구텍", "CEO_NAME": "김대구", "CORP_NO": "503-81-22110", "CUSTOMER_DOMAIN": "", "CUSTOMER_DOMAIN_YN": "N", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중견기업", "INDUSTRY": "섬유", "EMPLOYEE_CNT": 850, "ANNUAL_REVENUE": 4200, "PHONE_NO": "053-123-4567", "EMAIL": "info@daegutek.co.kr", "ADDRESS": "대구 달서구 성서공단로 123", "CITY": "대구", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20240601", "CONTRACT_END_DT": "20260531", "LAST_CONTACT_DT": "20250305", "STOCK_YN": "N", "ADMIN_ID": "이민호", "REG_DT": "20220301", "MEMO": "신규 영업 대상" },
+      { "CUSTOMER_ID": "C011", "CUSTOMER_NAME": "대구시청", "CEO_NAME": "홍길동", "CORP_NO": "503-83-00001", "CUSTOMER_DOMAIN": "daegu.go.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중소기업", "INDUSTRY": "공공", "EMPLOYEE_CNT": 3200, "ANNUAL_REVENUE": 0, "PHONE_NO": "053-803-0000", "EMAIL": "admin@daegu.go.kr", "ADDRESS": "대구 중구 공평로 88", "CITY": "대구", "CUSTOMER_GRADE": "C", "CONTRACT_ST": "협의중", "CONTRACT_DT": "", "CONTRACT_END_DT": "", "LAST_CONTACT_DT": "20250301", "STOCK_YN": "N", "ADMIN_ID": "이민호", "REG_DT": "20230115", "MEMO": "" }
+    ]
+  },
+  {
+    "area": "부산",
+    "customers": [
+      { "CUSTOMER_ID": "C020", "CUSTOMER_NAME": "부산항만공사", "CEO_NAME": "박부산", "CORP_NO": "606-82-01234", "CUSTOMER_DOMAIN": "busanport.go.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중견기업", "INDUSTRY": "물류", "EMPLOYEE_CNT": 540, "ANNUAL_REVENUE": 8900, "PHONE_NO": "051-999-3000", "EMAIL": "info@busanport.go.kr", "ADDRESS": "부산 중구 충장대로 206", "CITY": "부산", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20240101", "CONTRACT_END_DT": "20261231", "LAST_CONTACT_DT": "20250315", "STOCK_YN": "N", "ADMIN_ID": "박영희", "REG_DT": "20210801", "MEMO": "" },
+      { "CUSTOMER_ID": "C021", "CUSTOMER_NAME": "동원F&B", "CEO_NAME": "김동원", "CORP_NO": "606-81-55678", "CUSTOMER_DOMAIN": "dongwonfnb.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "식품", "EMPLOYEE_CNT": 2800, "ANNUAL_REVENUE": 31200, "PHONE_NO": "051-680-1114", "EMAIL": "contact@dongwonfnb.com", "ADDRESS": "부산 사하구 낙동대로 1번길 12", "CITY": "부산", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230701", "CONTRACT_END_DT": "20260630", "LAST_CONTACT_DT": "20250311", "STOCK_YN": "Y", "ADMIN_ID": "김철수", "REG_DT": "20200905", "MEMO": "VIP 고객" },
+      { "CUSTOMER_ID": "C022", "CUSTOMER_NAME": "부산시청", "CEO_NAME": "이시장", "CORP_NO": "606-83-00002", "CUSTOMER_DOMAIN": "busan.go.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "01", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중소기업", "INDUSTRY": "공공", "EMPLOYEE_CNT": 4100, "ANNUAL_REVENUE": 0, "PHONE_NO": "051-888-0000", "EMAIL": "admin@busan.go.kr", "ADDRESS": "부산 연제구 중앙대로 1001", "CITY": "부산", "CUSTOMER_GRADE": "C", "CONTRACT_ST": "계약만료", "CONTRACT_DT": "20220101", "CONTRACT_END_DT": "20241231", "LAST_CONTACT_DT": "20250220", "STOCK_YN": "N", "ADMIN_ID": "박영희", "REG_DT": "20211020", "MEMO": "" }
+    ]
+  },
+  {
+    "area": "인천",
+    "customers": [
+      { "CUSTOMER_ID": "C030", "CUSTOMER_NAME": "인천공항공사", "CEO_NAME": "최인천", "CORP_NO": "137-82-09876", "CUSTOMER_DOMAIN": "airport.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "항공", "EMPLOYEE_CNT": 1650, "ANNUAL_REVENUE": 22100, "PHONE_NO": "032-741-0114", "EMAIL": "info@airport.kr", "ADDRESS": "인천 중구 공항로 272", "CITY": "인천", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230401", "CONTRACT_END_DT": "20260331", "LAST_CONTACT_DT": "20250314", "STOCK_YN": "N", "ADMIN_ID": "김철수", "REG_DT": "20200401", "MEMO": "장기 계약 고객" }
+    ]
+  }
+]
