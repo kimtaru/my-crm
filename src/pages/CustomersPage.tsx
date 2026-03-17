@@ -167,6 +167,8 @@ const TABLE_CLASS_NAMES = {
   columnToggle: styles.columnToggle,
   columnToggleActive: styles.columnToggleActive,
   columnToggleCheckbox: styles.columnToggleCheckbox,
+  contextMenu: styles.contextMenu,
+  contextMenuItem: styles.contextMenuItem,
 }
 
 function renderEditCellUI({ value, onChange, onSave, onCancel }: EditCellProps) {
@@ -207,6 +209,7 @@ function InfiniteScrollTable() {
   const [showFilter, setShowFilter] = useState(false)
   const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
   const [columnOrder, setColumnOrder] = useState(() => COLUMNS.map((c) => c.key))
+  const [pinnedKeys, setPinnedKeys] = useState<{ left?: string[]; right?: string[] }>({})
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useCustomerInfiniteList()
 
@@ -244,6 +247,9 @@ function InfiniteScrollTable() {
         onHiddenKeysChange={setHiddenKeys}
         columnOrder={columnOrder}
         onColumnOrderChange={setColumnOrder}
+        pinnedKeys={pinnedKeys}
+        onPinnedKeysChange={setPinnedKeys}
+        pinnedBg={{ header: '#1e293b', body: '#0f172a' }}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
@@ -267,7 +273,7 @@ function InfiniteScrollTable() {
         addingRow={isAdding}
         onRowAdd={(values) => { console.log('추가:', values); setIsAdding(false) }}
         onAddingRowCancel={() => setIsAdding(false)}
-        deletable
+        // deletable
         onRowDelete={(key) => console.log('삭제:', key)}
         onLoadMore={() => fetchNextPage()}
         hasMore={!!hasNextPage}
@@ -289,6 +295,7 @@ function PaginationTable() {
   const [showFilter, setShowFilter] = useState(false)
   const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
   const [columnOrder, setColumnOrder] = useState(() => COLUMNS.map((c) => c.key))
+  const [pinnedKeys, setPinnedKeys] = useState<{ left?: string[]; right?: string[] }>({})
 
   const { data, isLoading } = useCustomerList({ page })
   const customers = data?.customers ?? []
@@ -320,6 +327,9 @@ function PaginationTable() {
         onHiddenKeysChange={setHiddenKeys}
         columnOrder={columnOrder}
         onColumnOrderChange={setColumnOrder}
+        pinnedKeys={pinnedKeys}
+        onPinnedKeysChange={setPinnedKeys}
+        pinnedBg={{ header: '#1e293b', body: '#0f172a' }}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
