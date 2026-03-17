@@ -206,6 +206,7 @@ function InfiniteScrollTable() {
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [showFilter, setShowFilter] = useState(false)
   const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
+  const [columnOrder, setColumnOrder] = useState(() => COLUMNS.map((c) => c.key))
 
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useCustomerInfiniteList()
 
@@ -241,6 +242,8 @@ function InfiniteScrollTable() {
         rowHeight={44}
         hiddenKeys={hiddenKeys}
         onHiddenKeysChange={setHiddenKeys}
+        columnOrder={columnOrder}
+        onColumnOrderChange={setColumnOrder}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
@@ -285,6 +288,7 @@ function PaginationTable() {
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [showFilter, setShowFilter] = useState(false)
   const [hiddenKeys, setHiddenKeys] = useState<string[]>([])
+  const [columnOrder, setColumnOrder] = useState(() => COLUMNS.map((c) => c.key))
 
   const { data, isLoading } = useCustomerList({ page })
   const customers = data?.customers ?? []
@@ -314,6 +318,8 @@ function PaginationTable() {
         loading={isLoading}
         hiddenKeys={hiddenKeys}
         onHiddenKeysChange={setHiddenKeys}
+        columnOrder={columnOrder}
+        onColumnOrderChange={setColumnOrder}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
