@@ -11,31 +11,102 @@ function formatDate(raw: string) {
   return `${raw.slice(0, 4)}.${raw.slice(4, 6)}.${raw.slice(6, 8)}`
 }
 
+function formatNumber(n: number | null) {
+  if (n == null) return '-'
+  return n.toLocaleString()
+}
+
 const COLUMNS: ColumnDef<Customer>[] = [
-  { key: 'CUSTOMER_ID', label: '고객 ID', sortable: true, width: '10%', filterType: 'text',
+  { key: 'CUSTOMER_ID', label: '고객 ID', sortable: true, width: '100px', filterType: 'text',
     render: (c) => <span className={styles.cellId}>{c.CUSTOMER_ID}</span> },
-  { key: 'CUSTOMER_NAME', label: '고객명', editable: true, sortable: true, insertable: true, width: '22%', filterType: 'text',
+  { key: 'CUSTOMER_NAME', label: '고객명', editable: true, sortable: true, insertable: true, width: '180px', filterType: 'text',
     render: (c) => <span className={styles.cellName}>{c.CUSTOMER_NAME.trim() || '-'}</span> },
-  { key: 'CEO_NAME', label: '대표자', editable: true, sortable: true, insertable: true, width: '12%', filterType: 'text',
+  { key: 'CEO_NAME', label: '대표자', editable: true, sortable: true, insertable: true, width: '100px', filterType: 'text',
     render: (c) => c.CEO_NAME || '-' },
-  { key: 'CORP_NO', label: '사업자번호', sortable: true, insertable: true, width: '13%', filterType: 'text',
+  { key: 'CORP_NO', label: '사업자번호', sortable: true, insertable: true, width: '130px', filterType: 'text',
     render: (c) => <span className={styles.cellMono}>{c.CORP_NO || '-'}</span> },
-  { key: 'CUSTOMER_DOMAIN', label: '도메인', sortable: true, insertable: true, width: '14%', filterType: 'text',
+  { key: 'CUSTOMER_DOMAIN', label: '도메인', sortable: true, insertable: true, width: '160px', filterType: 'text',
     render: (c) => c.CUSTOMER_DOMAIN_YN === 'Y' && c.CUSTOMER_DOMAIN
       ? <span className={styles.domainBadge}>{c.CUSTOMER_DOMAIN}</span>
       : <span className={styles.cellEmpty}>-</span> },
-  { key: 'CUSTOMER_ST', label: '상태', sortable: true, width: '8%',
+  { key: 'CUSTOMER_DOMAIN_YN', label: '도메인 여부', sortable: true, width: '90px',
+    filterType: 'select', filterOptions: [{ label: 'Y', value: 'Y' }, { label: 'N', value: 'N' }],
+    render: (c) => (
+      <span className={c.CUSTOMER_DOMAIN_YN === 'Y' ? styles.badgeY : styles.badgeN}>
+        {c.CUSTOMER_DOMAIN_YN}
+      </span>
+    )},
+  { key: 'CUSTOMER_ST', label: '상태', sortable: true, width: '80px',
     filterType: 'select', filterOptions: [{ label: '활성', value: '00' }, { label: '비활성', value: '01' }],
     render: (c) => (
       <span className={c.CUSTOMER_ST === '00' ? styles.stActive : styles.stInactive}>
         {c.CUSTOMER_ST === '00' ? '활성' : '비활성'}
       </span>
     )},
-  { key: 'ADMIN_ID', label: '담당자', sortable: true, width: '10%',
+  { key: 'MAIN_CUSTOMER_ID', label: '상위고객', sortable: true, width: '100px', filterType: 'text',
+    render: (c) => c.MAIN_CUSTOMER_ID
+      ? <span className={styles.cellId}>{c.MAIN_CUSTOMER_ID}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'CUSTOMER_TYPE', label: '고객유형', sortable: true, width: '100px',
+    filterType: 'select', filterOptions: [
+      { label: '대기업', value: '대기업' }, { label: '중견기업', value: '중견기업' },
+      { label: '중소기업', value: '중소기업' }, { label: '스타트업', value: '스타트업' },
+    ],
+    render: (c) => c.CUSTOMER_TYPE || <span className={styles.cellEmpty}>-</span> },
+  { key: 'INDUSTRY', label: '업종', sortable: true, width: '120px', filterType: 'text',
+    render: (c) => c.INDUSTRY || <span className={styles.cellEmpty}>-</span> },
+  { key: 'EMPLOYEE_CNT', label: '직원 수', sortable: true, width: '100px', filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{formatNumber(c.EMPLOYEE_CNT)}</span> },
+  { key: 'ANNUAL_REVENUE', label: '연매출(억)', sortable: true, width: '110px', filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{formatNumber(c.ANNUAL_REVENUE)}</span> },
+  { key: 'PHONE_NO', label: '전화번호', sortable: true, width: '130px', filterType: 'text',
+    render: (c) => <span className={styles.cellMono}>{c.PHONE_NO || '-'}</span> },
+  { key: 'EMAIL', label: '이메일', sortable: true, width: '180px', filterType: 'text',
+    render: (c) => c.EMAIL
+      ? <span className={styles.cellEmail}>{c.EMAIL}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'ADDRESS', label: '주소', sortable: true, width: '250px', filterType: 'text',
+    render: (c) => c.ADDRESS || <span className={styles.cellEmpty}>-</span> },
+  { key: 'CITY', label: '도시', sortable: true, width: '80px', filterType: 'text',
+    render: (c) => c.CITY || <span className={styles.cellEmpty}>-</span> },
+  { key: 'CUSTOMER_GRADE', label: '등급', sortable: true, width: '70px',
+    filterType: 'select', filterOptions: [
+      { label: 'A', value: 'A' }, { label: 'B', value: 'B' },
+      { label: 'C', value: 'C' }, { label: 'D', value: 'D' },
+    ],
+    render: (c) => c.CUSTOMER_GRADE
+      ? <span className={styles[`grade${c.CUSTOMER_GRADE}` as keyof typeof styles]}>{c.CUSTOMER_GRADE}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'CONTRACT_ST', label: '계약상태', sortable: true, width: '100px',
+    filterType: 'select', filterOptions: [
+      { label: '계약중', value: '계약중' }, { label: '계약만료', value: '계약만료' },
+      { label: '협의중', value: '협의중' }, { label: '없음', value: '없음' },
+    ],
+    render: (c) => c.CONTRACT_ST
+      ? <span className={styles[`contract${c.CONTRACT_ST}` as keyof typeof styles] || ''}>{c.CONTRACT_ST}</span>
+      : <span className={styles.cellEmpty}>-</span> },
+  { key: 'CONTRACT_DT', label: '계약시작일', sortable: true, width: '110px', filterType: 'dateRange',
+    render: (c) => <span className={styles.cellMono}>{formatDate(c.CONTRACT_DT ?? '')}</span> },
+  { key: 'CONTRACT_END_DT', label: '계약종료일', sortable: true, width: '110px', filterType: 'dateRange',
+    render: (c) => <span className={styles.cellMono}>{formatDate(c.CONTRACT_END_DT ?? '')}</span> },
+  { key: 'LAST_CONTACT_DT', label: '최근접촉일', sortable: true, width: '110px', filterType: 'dateRange',
+    render: (c) => <span className={styles.cellMono}>{formatDate(c.LAST_CONTACT_DT ?? '')}</span> },
+  { key: 'STOCK_YN', label: '상장', sortable: true, width: '70px',
+    filterType: 'select', filterOptions: [{ label: 'Y', value: 'Y' }, { label: 'N', value: 'N' }],
+    render: (c) => (
+      <span className={c.STOCK_YN === 'Y' ? styles.badgeY : styles.badgeN}>
+        {c.STOCK_YN}
+      </span>
+    )},
+  { key: 'ADMIN_ID', label: '담당자', sortable: true, width: '90px',
     filterType: 'select', filterOptions: [{ label: '김철수', value: '김철수' }, { label: '박영희', value: '박영희' }, { label: '이민호', value: '이민호' }],
     render: (c) => c.ADMIN_ID || <span className={styles.cellEmpty}>-</span> },
-  { key: 'REG_DT', label: '등록일', sortable: true, width: '11%', filterType: 'dateRange',
+  { key: 'REG_DT', label: '등록일', sortable: true, width: '110px', filterType: 'dateRange',
     render: (c) => <span className={styles.cellMono}>{formatDate(c.REG_DT)}</span> },
+  { key: 'MEMO', label: '메모', width: '250px',
+    render: (c) => c.MEMO
+      ? <span title={c.MEMO}>{c.MEMO}</span>
+      : <span className={styles.cellEmpty}>-</span> },
 ]
 
 const TABLE_CLASS_NAMES = {

@@ -1,7 +1,5 @@
 .page {
   padding: 24px 32px 40px;
-  max-width: 1280px;
-  margin: 0 auto;
 }
 
 /* 페이지 헤더 */
@@ -303,6 +301,115 @@
   color: #64748b;
   font-size: 12px;
   font-weight: 500;
+}
+
+/* Y/N 배지 */
+.badgeY {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badgeN {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(100, 116, 139, 0.12);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 등급 배지 */
+.gradeA {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gradeB {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gradeC {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gradeD {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 계약상태 */
+.contract계약중 {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.contract계약만료 {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.contract협의중 {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.contract없음 {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(100, 116, 139, 0.12);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 이메일 */
+.cellEmail {
+  color: #60a5fa;
+  font-size: 12px;
 }
 
 /* 필터 행 */
