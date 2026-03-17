@@ -103,10 +103,38 @@ const COLUMNS: ColumnDef<Customer>[] = [
     render: (c) => c.ADMIN_ID || <span className={styles.cellEmpty}>-</span> },
   { key: 'REG_DT', label: '등록일', sortable: true, width: '110px', filterType: 'dateRange',
     render: (c) => <span className={styles.cellMono}>{formatDate(c.REG_DT)}</span> },
-  { key: 'MEMO', label: '메모', width: '250px',
+  { key: 'MEMO', label: '메모', width: '250px', editable: true, insertable: true,
     render: (c) => c.MEMO
       ? <span title={c.MEMO}>{c.MEMO}</span>
-      : <span className={styles.cellEmpty}>-</span> },
+      : <span className={styles.cellEmpty}>-</span>,
+    renderEditCell: ({ value, onChange, onSave, onCancel }) => (
+      <div className={styles.memoEditWrap}>
+        <textarea
+          className={styles.editTextarea}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') onCancel()
+            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) onSave()
+          }}
+          autoFocus
+          rows={3}
+        />
+        <span className={styles.memoEditActions}>
+          <button type="button" className={styles.editSaveBtn} onClick={onSave} aria-label="저장">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </button>
+          <button type="button" className={styles.editCancelBtn} onClick={onCancel} aria-label="취소">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </span>
+      </div>
+    ) },
 ]
 
 const TABLE_CLASS_NAMES = {

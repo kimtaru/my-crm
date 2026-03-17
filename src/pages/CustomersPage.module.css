@@ -176,6 +176,36 @@
   border-color: #3b82f6;
 }
 
+.memoEditWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.memoEditActions {
+  display: flex;
+  gap: 2px;
+  justify-content: flex-end;
+}
+
+.editTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  background-color: #1e293b;
+  color: #f1f5f9;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+}
+
+.editTextarea:focus {
+  border-color: #3b82f6;
+}
+
 .editSaveBtn {
   display: inline-flex;
   align-items: center;
