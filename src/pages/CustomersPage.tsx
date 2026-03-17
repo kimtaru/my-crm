@@ -273,7 +273,8 @@ function InfiniteScrollTable() {
         addingRow={isAdding}
         onRowAdd={(values) => { console.log('추가:', values); setIsAdding(false) }}
         onAddingRowCancel={() => setIsAdding(false)}
-        // deletable
+        deletable
+        // noHeaderMenu
         onRowDelete={(key) => console.log('삭제:', key)}
         onLoadMore={() => fetchNextPage()}
         hasMore={!!hasNextPage}
