@@ -17,13 +17,22 @@ function formatNumber(n: number | null) {
   return n.toLocaleString()
 }
 
+function validateCustomerName(v: string): string | null {
+  if (!v.trim()) return '고객명을 입력해주세요'
+  if (v.trim().length < 2) return '고객명은 2글자 이상 입력해주세요'
+  return null
+}
+
 const COLUMNS: ColumnDef<Customer>[] = [
   { key: 'CUSTOMER_ID', label: '고객 ID', sortable: true, width: '100px', filterType: 'text',
     render: (c) => <span className={styles.cellId}>{c.CUSTOMER_ID}</span> },
   { key: 'CUSTOMER_NAME', label: '고객명', editable: true, sortable: true, insertable: true, width: '180px', filterType: 'text',
-    render: (c) => <span className={styles.cellName}>{c.CUSTOMER_NAME.trim() || '-'}</span> },
+    render: (c) => <span className={styles.cellName}>{c.CUSTOMER_NAME.trim() || '-'}</span>,
+    validate: validateCustomerName,
+    onValidationError: (err) => alert(err) },
   { key: 'CEO_NAME', label: '대표자', editable: true, sortable: true, insertable: true, width: '100px', filterType: 'text',
-    render: (c) => c.CEO_NAME || '-' },
+    render: (c) => c.CEO_NAME || '-',
+    validate: (v) => v.trim() ? null : '대표자를 입력해주세요' },
   { key: 'CORP_NO', label: '사업자번호', sortable: true, insertable: true, width: '130px', filterType: 'text',
     render: (c) => <span className={styles.cellMono}>{c.CORP_NO || '-'}</span> },
   { key: 'CUSTOMER_DOMAIN', label: '도메인', sortable: true, insertable: true, width: '160px', filterType: 'text', copyable: true,
@@ -175,30 +184,34 @@ const TABLE_CLASS_NAMES = {
   tooltip: styles.tooltip,
 }
 
-function renderEditCellUI({ value, onChange, onSave, onCancel }: EditCellProps) {
+function renderEditCellUI({ value, onChange, onSave, onCancel, error }: EditCellProps) {
   return (
-    <span className={styles.editWrap}>
-      <input
-        className={styles.editInput}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') onSave()
-          if (e.key === 'Escape') onCancel()
-        }}
-        autoFocus
-      />
-      <button type="button" className={styles.editSaveBtn} onClick={onSave} aria-label="저장">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
-      </button>
-      <button type="button" className={styles.editCancelBtn} onClick={onCancel} aria-label="취소">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
+    <span className={styles.editWrap} style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+        <input
+          className={styles.editInput}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') onSave()
+            if (e.key === 'Escape') onCancel()
+          }}
+          autoFocus
+          style={error ? { borderColor: '#e53e3e', outlineColor: '#e53e3e' } : undefined}
+        />
+        <button type="button" className={styles.editSaveBtn} onClick={onSave} aria-label="저장">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </button>
+        <button type="button" className={styles.editCancelBtn} onClick={onCancel} aria-label="취소">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </span>
+      {error && <span style={{ color: '#e53e3e', fontSize: '12px', marginTop: 2, whiteSpace: 'normal', wordBreak: 'keep-all' }}>{error}</span>}
     </span>
   )
 }
@@ -398,10 +411,13 @@ const GROUPED_DUMMY_DATA = _groupedData as CustomerAreaGroup[]
 const CHILD_COLUMNS: ColumnDef<Customer>[] = [
   { key: 'CUSTOMER_ID', label: '고객 ID', width: '100px', sortable: true, filterType: 'text',
     render: (c) => <span className={styles.cellId}>{c.CUSTOMER_ID}</span> },
-  { key: 'CUSTOMER_NAME', label: '고객명', width: '180px', sortable: true, filterType: 'text',
-    render: (c) => <span className={styles.cellName}>{c.CUSTOMER_NAME.trim() || '-'}</span> },
-  { key: 'CEO_NAME', label: '대표자', width: '100px', sortable: true, filterType: 'text',
-    render: (c) => c.CEO_NAME || '-' },
+  { key: 'CUSTOMER_NAME', label: '고객명', width: '180px', editable: true, sortable: true, filterType: 'text',
+    render: (c) => <span className={styles.cellName}>{c.CUSTOMER_NAME.trim() || '-'}</span>,
+    validate: validateCustomerName,
+    onValidationError: (err) => alert(err) },
+  { key: 'CEO_NAME', label: '대표자', width: '100px', editable: true, sortable: true, filterType: 'text',
+    render: (c) => c.CEO_NAME || '-',
+    validate: (v) => v.trim() ? null : '대표자를 입력해주세요' },
   { key: 'CORP_NO', label: '사업자번호', width: '130px', filterType: 'text',
     render: (c) => <span className={styles.cellMono}>{c.CORP_NO || '-'}</span> },
   { key: 'CUSTOMER_TYPE', label: '고객유형', width: '100px', sortable: true,
@@ -513,6 +529,8 @@ function GroupedTable() {
         onChildSelectedKeysChange={setChildSelectedKeys}
         childDeletable
         onChildRowDelete={(gk, ck) => console.log('그룹 삭제:', gk, ck)}
+        onCellChange={(rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value })}
+        renderEditCell={renderEditCellUI}
         filterable={showFilter}
         filters={filters}
         onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
