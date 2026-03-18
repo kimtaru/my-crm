@@ -146,6 +146,14 @@
   background-color: rgba(51, 65, 85, 0.4);
 }
 
+.smallCompanyRow {
+  background-color: rgba(234, 179, 8, 0.1);
+}
+
+.smallCompanyRow:hover {
+  background-color: rgba(234, 179, 8, 0.2);
+}
+
 .td {
   padding: 12px 16px;
   color: #cbd5e1;

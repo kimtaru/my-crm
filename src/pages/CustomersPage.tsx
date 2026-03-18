@@ -283,6 +283,7 @@ function InfiniteScrollTable() {
         renderEditCell={renderEditCellUI}
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
+        rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
       />
     </section>
   )
@@ -362,6 +363,7 @@ function PaginationTable() {
         renderEditCell={renderEditCellUI}
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
+        rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
       />
       <Pagination page={page} totalPages={totalPages} onChange={setPage} />
     </section>
@@ -513,6 +515,7 @@ function GroupedTable() {
         ]}
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
+        rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
       />
     </section>
   )
