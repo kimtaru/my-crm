@@ -281,6 +281,8 @@ function InfiniteScrollTable() {
         hasMore={!!hasNextPage}
         loadingMore={isFetchingNextPage}
         renderEditCell={renderEditCellUI}
+        onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
+        onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
       />
     </section>
   )
@@ -358,6 +360,8 @@ function PaginationTable() {
         deletable
         onRowDelete={(key) => console.log('삭제:', key)}
         renderEditCell={renderEditCellUI}
+        onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
+        onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
       />
       <Pagination page={page} totalPages={totalPages} onChange={setPage} />
     </section>
@@ -507,6 +511,8 @@ function GroupedTable() {
           { label: showFilter ? '필터 숨기기' : '필터', onClick: () => setShowFilter((v) => !v) },
           { label: '필터 초기화', onClick: () => setFilters({}) },
         ]}
+        onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
+        onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
       />
     </section>
   )
