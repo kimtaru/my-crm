@@ -26,7 +26,7 @@ const COLUMNS: ColumnDef<Customer>[] = [
     render: (c) => c.CEO_NAME || '-' },
   { key: 'CORP_NO', label: '사업자번호', sortable: true, insertable: true, width: '130px', filterType: 'text',
     render: (c) => <span className={styles.cellMono}>{c.CORP_NO || '-'}</span> },
-  { key: 'CUSTOMER_DOMAIN', label: '도메인', sortable: true, insertable: true, width: '160px', filterType: 'text',
+  { key: 'CUSTOMER_DOMAIN', label: '도메인', sortable: true, insertable: true, width: '160px', filterType: 'text', copyable: true,
     render: (c) => c.CUSTOMER_DOMAIN_YN === 'Y' && c.CUSTOMER_DOMAIN
       ? <span className={styles.domainBadge}>{c.CUSTOMER_DOMAIN}</span>
       : <span className={styles.cellEmpty}>-</span> },
@@ -170,6 +170,8 @@ const TABLE_CLASS_NAMES = {
   columnToggleCheckbox: styles.columnToggleCheckbox,
   contextMenu: styles.contextMenu,
   contextMenuItem: styles.contextMenuItem,
+  cellCopyMenu: styles.cellCopyMenu,
+  cellCopyMenuItem: styles.cellCopyMenuItem,
   tooltip: styles.tooltip,
 }
 
@@ -286,6 +288,10 @@ function InfiniteScrollTable() {
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
         tooltip
+        onCellCopy={() => alert('복사되었습니다.')}
+        cellContextMenuItems={[
+          { label: '테스트_구현중', onClick: () => alert('구현중') },
+        ]}
       />
     </section>
   )
@@ -366,6 +372,10 @@ function PaginationTable() {
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
+        onCellCopy={() => alert('복사되었습니다.')}
+        cellContextMenuItems={[
+          { label: '테스트_구현중', onClick: () => alert('구현중') },
+        ]}
       />
       <Pagination page={page} totalPages={totalPages} onChange={setPage} />
     </section>
@@ -521,6 +531,7 @@ function GroupedTable() {
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
         tooltip
+        onCellCopy={() => alert('복사되었습니다.')}
       />
     </section>
   )

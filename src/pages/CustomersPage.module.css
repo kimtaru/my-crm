@@ -764,6 +764,36 @@
   background: #334155;
 }
 
+/* 셀 복사 컨텍스트 메뉴 */
+.cellCopyMenu {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  padding: 4px 0;
+  min-width: 120px;
+}
+
+.cellCopyMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  color: #cbd5e1;
+  white-space: nowrap;
+  transition: background-color 0.1s;
+}
+
+.cellCopyMenuItem:hover {
+  background: #334155;
+}
+
 .tooltip {
   max-width: 360px;
   padding: 6px 10px;
