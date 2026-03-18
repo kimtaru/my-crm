@@ -764,3 +764,16 @@
   background: #334155;
 }
 
+.tooltip {
+  max-width: 360px;
+  padding: 6px 10px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 13px;
+  line-height: 1.4;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  word-break: break-all;
+  pointer-events: none;
+}
+

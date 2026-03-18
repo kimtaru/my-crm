@@ -5,16 +5,146 @@
       {
         "type": "대기업",
         "customers": [
-          { "CUSTOMER_ID": "C001", "CUSTOMER_NAME": "삼성전자", "CEO_NAME": "이재용", "CORP_NO": "124-81-00998", "CUSTOMER_DOMAIN": "samsung.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "전자", "EMPLOYEE_CNT": 26700, "ANNUAL_REVENUE": 3028900, "PHONE_NO": "02-2255-0114", "EMAIL": "contact@samsung.com", "ADDRESS": "서울 서초구 서초대로74길 11", "CITY": "서울", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230101", "CONTRACT_END_DT": "20251231", "LAST_CONTACT_DT": "20250310", "STOCK_YN": "Y", "ADMIN_ID": "김철수", "REG_DT": "20200115", "MEMO": "주요 고객" },
-          { "CUSTOMER_ID": "C002", "CUSTOMER_NAME": "LG전자", "CEO_NAME": "조주완", "CORP_NO": "107-86-14075", "CUSTOMER_DOMAIN": "lge.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "전자", "EMPLOYEE_CNT": 39000, "ANNUAL_REVENUE": 833700, "PHONE_NO": "02-3777-1114", "EMAIL": "info@lge.com", "ADDRESS": "서울 영등포구 여의대로 128", "CITY": "서울", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230301", "CONTRACT_END_DT": "20260228", "LAST_CONTACT_DT": "20250308", "STOCK_YN": "Y", "ADMIN_ID": "김철수", "REG_DT": "20200220", "MEMO": "" },
-          { "CUSTOMER_ID": "C003", "CUSTOMER_NAME": "카카오", "CEO_NAME": "정신아", "CORP_NO": "120-81-47521", "CUSTOMER_DOMAIN": "kakao.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "IT", "EMPLOYEE_CNT": 4200, "ANNUAL_REVENUE": 65800, "PHONE_NO": "1577-3321", "EMAIL": "biz@kakao.com", "ADDRESS": "서울 강남구 테헤란로 242", "CITY": "서울", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "협의중", "CONTRACT_DT": "", "CONTRACT_END_DT": "", "LAST_CONTACT_DT": "20250312", "STOCK_YN": "Y", "ADMIN_ID": "박영희", "REG_DT": "20210610", "MEMO": "" }
+          {
+            "CUSTOMER_ID": "C001",
+            "CUSTOMER_NAME": "삼성전자",
+            "CEO_NAME": "이재용",
+            "CORP_NO": "124-81-00998",
+            "CUSTOMER_DOMAIN": "samsung.com",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "대기업",
+            "INDUSTRY": "전자",
+            "EMPLOYEE_CNT": 26700,
+            "ANNUAL_REVENUE": 3028900,
+            "PHONE_NO": "02-2255-0114",
+            "EMAIL": "contact@samsung.com",
+            "ADDRESS": "서울 서초구 서초대로74길 11",
+            "CITY": "서울",
+            "CUSTOMER_GRADE": "A",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20230101",
+            "CONTRACT_END_DT": "20251231",
+            "LAST_CONTACT_DT": "20250310",
+            "STOCK_YN": "Y",
+            "ADMIN_ID": "김철수",
+            "REG_DT": "20200115",
+            "MEMO": "2025년 상반기 대규모 인프라 구축 프로젝트 수주 예정. 기존 레거시 시스템 전면 교체 작업이 포함되며, 클라우드 마이그레이션과 보안 강화 컨설팅도 함께 진행할 계획. 담당자 김과장과 3월 중 미팅 예정."
+          },
+          {
+            "CUSTOMER_ID": "C002",
+            "CUSTOMER_NAME": "LG전자",
+            "CEO_NAME": "조주완",
+            "CORP_NO": "107-86-14075",
+            "CUSTOMER_DOMAIN": "lge.com",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "대기업",
+            "INDUSTRY": "전자",
+            "EMPLOYEE_CNT": 39000,
+            "ANNUAL_REVENUE": 833700,
+            "PHONE_NO": "02-3777-1114",
+            "EMAIL": "info@lge.com",
+            "ADDRESS": "서울 영등포구 여의대로 128",
+            "CITY": "서울",
+            "CUSTOMER_GRADE": "A",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20230301",
+            "CONTRACT_END_DT": "20260228",
+            "LAST_CONTACT_DT": "20250308",
+            "STOCK_YN": "Y",
+            "ADMIN_ID": "김철수",
+            "REG_DT": "20200220",
+            "MEMO": ""
+          },
+          {
+            "CUSTOMER_ID": "C003",
+            "CUSTOMER_NAME": "카카오",
+            "CEO_NAME": "정신아",
+            "CORP_NO": "120-81-47521",
+            "CUSTOMER_DOMAIN": "kakao.com",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "대기업",
+            "INDUSTRY": "IT",
+            "EMPLOYEE_CNT": 4200,
+            "ANNUAL_REVENUE": 65800,
+            "PHONE_NO": "1577-3321",
+            "EMAIL": "biz@kakao.com",
+            "ADDRESS": "서울 강남구 테헤란로 242",
+            "CITY": "서울",
+            "CUSTOMER_GRADE": "B",
+            "CONTRACT_ST": "협의중",
+            "CONTRACT_DT": "",
+            "CONTRACT_END_DT": "",
+            "LAST_CONTACT_DT": "20250312",
+            "STOCK_YN": "Y",
+            "ADMIN_ID": "박영희",
+            "REG_DT": "20210610",
+            "MEMO": "최근 조직 개편으로 IT 부서장이 교체됨. 신임 부서장은 디지털 전환에 적극적이며 AI/ML 도입에 관심이 높음. 기존 계약 범위 외 추가 솔루션 제안 기회가 있으며, 파일럿 프로젝트부터 시작하자는 의견."
+          }
         ]
       },
       {
         "type": "스타트업",
         "customers": [
-          { "CUSTOMER_ID": "C004", "CUSTOMER_NAME": "토스", "CEO_NAME": "이승건", "CORP_NO": "120-88-33456", "CUSTOMER_DOMAIN": "toss.im", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "스타트업", "INDUSTRY": "핀테크", "EMPLOYEE_CNT": 2100, "ANNUAL_REVENUE": 12300, "PHONE_NO": "02-1599-4905", "EMAIL": "biz@toss.im", "ADDRESS": "서울 강남구 테헤란로 131", "CITY": "서울", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20240101", "CONTRACT_END_DT": "20261231", "LAST_CONTACT_DT": "20250310", "STOCK_YN": "N", "ADMIN_ID": "박영희", "REG_DT": "20220501", "MEMO": "" },
-          { "CUSTOMER_ID": "C005", "CUSTOMER_NAME": "당근마켓", "CEO_NAME": "김용현", "CORP_NO": "120-88-77890", "CUSTOMER_DOMAIN": "daangn.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "스타트업", "INDUSTRY": "플랫폼", "EMPLOYEE_CNT": 800, "ANNUAL_REVENUE": 4500, "PHONE_NO": "02-1544-9796", "EMAIL": "biz@daangn.com", "ADDRESS": "서울 서초구 강남대로 327", "CITY": "서울", "CUSTOMER_GRADE": "C", "CONTRACT_ST": "협의중", "CONTRACT_DT": "", "CONTRACT_END_DT": "", "LAST_CONTACT_DT": "20250308", "STOCK_YN": "N", "ADMIN_ID": "이민호", "REG_DT": "20230301", "MEMO": "" }
+          {
+            "CUSTOMER_ID": "C004",
+            "CUSTOMER_NAME": "토스",
+            "CEO_NAME": "이승건",
+            "CORP_NO": "120-88-33456",
+            "CUSTOMER_DOMAIN": "toss.im",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "스타트업",
+            "INDUSTRY": "핀테크",
+            "EMPLOYEE_CNT": 2100,
+            "ANNUAL_REVENUE": 12300,
+            "PHONE_NO": "02-1599-4905",
+            "EMAIL": "biz@toss.im",
+            "ADDRESS": "서울 강남구 테헤란로 131",
+            "CITY": "서울",
+            "CUSTOMER_GRADE": "B",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20240101",
+            "CONTRACT_END_DT": "20261231",
+            "LAST_CONTACT_DT": "20250310",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "박영희",
+            "REG_DT": "20220501",
+            "MEMO": ""
+          },
+          {
+            "CUSTOMER_ID": "C005",
+            "CUSTOMER_NAME": "당근마켓",
+            "CEO_NAME": "김용현",
+            "CORP_NO": "120-88-77890",
+            "CUSTOMER_DOMAIN": "daangn.com",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "스타트업",
+            "INDUSTRY": "플랫폼",
+            "EMPLOYEE_CNT": 800,
+            "ANNUAL_REVENUE": 4500,
+            "PHONE_NO": "02-1544-9796",
+            "EMAIL": "biz@daangn.com",
+            "ADDRESS": "서울 서초구 강남대로 327",
+            "CITY": "서울",
+            "CUSTOMER_GRADE": "C",
+            "CONTRACT_ST": "협의중",
+            "CONTRACT_DT": "",
+            "CONTRACT_END_DT": "",
+            "LAST_CONTACT_DT": "20250308",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "이민호",
+            "REG_DT": "20230301",
+            "MEMO": "글로벌 진출에 따른 해외 데이터센터 연동 요구사항 증가. GDPR 및 개인정보보호법 준수를 위한 데이터 거버넌스 체계 수립이 시급하며, 컨설팅 패키지 제안서를 3월 말까지 제출해야 함."
+          }
         ]
       }
     ]
@@ -25,13 +155,65 @@
       {
         "type": "중견기업",
         "customers": [
-          { "CUSTOMER_ID": "C010", "CUSTOMER_NAME": "대구텍", "CEO_NAME": "김대구", "CORP_NO": "503-81-22110", "CUSTOMER_DOMAIN": "", "CUSTOMER_DOMAIN_YN": "N", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중견기업", "INDUSTRY": "섬유", "EMPLOYEE_CNT": 850, "ANNUAL_REVENUE": 4200, "PHONE_NO": "053-123-4567", "EMAIL": "info@daegutek.co.kr", "ADDRESS": "대구 달서구 성서공단로 123", "CITY": "대구", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20240601", "CONTRACT_END_DT": "20260531", "LAST_CONTACT_DT": "20250305", "STOCK_YN": "N", "ADMIN_ID": "이민호", "REG_DT": "20220301", "MEMO": "신규 영업 대상" }
+          {
+            "CUSTOMER_ID": "C010",
+            "CUSTOMER_NAME": "대구텍",
+            "CEO_NAME": "김대구",
+            "CORP_NO": "503-81-22110",
+            "CUSTOMER_DOMAIN": "",
+            "CUSTOMER_DOMAIN_YN": "N",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "중견기업",
+            "INDUSTRY": "섬유",
+            "EMPLOYEE_CNT": 850,
+            "ANNUAL_REVENUE": 4200,
+            "PHONE_NO": "053-123-4567",
+            "EMAIL": "info@daegutek.co.kr",
+            "ADDRESS": "대구 달서구 성서공단로 123",
+            "CITY": "대구",
+            "CUSTOMER_GRADE": "B",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20240601",
+            "CONTRACT_END_DT": "20260531",
+            "LAST_CONTACT_DT": "20250305",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "이민호",
+            "REG_DT": "20220301",
+            "MEMO": "신규 영업 대상"
+          }
         ]
       },
       {
         "type": "중소기업",
         "customers": [
-          { "CUSTOMER_ID": "C011", "CUSTOMER_NAME": "대구시청", "CEO_NAME": "홍길동", "CORP_NO": "503-83-00001", "CUSTOMER_DOMAIN": "daegu.go.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중소기업", "INDUSTRY": "공공", "EMPLOYEE_CNT": 3200, "ANNUAL_REVENUE": 0, "PHONE_NO": "053-803-0000", "EMAIL": "admin@daegu.go.kr", "ADDRESS": "대구 중구 공평로 88", "CITY": "대구", "CUSTOMER_GRADE": "C", "CONTRACT_ST": "협의중", "CONTRACT_DT": "", "CONTRACT_END_DT": "", "LAST_CONTACT_DT": "20250301", "STOCK_YN": "N", "ADMIN_ID": "이민호", "REG_DT": "20230115", "MEMO": "" }
+          {
+            "CUSTOMER_ID": "C011",
+            "CUSTOMER_NAME": "대구시청",
+            "CEO_NAME": "홍길동",
+            "CORP_NO": "503-83-00001",
+            "CUSTOMER_DOMAIN": "daegu.go.kr",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "중소기업",
+            "INDUSTRY": "공공",
+            "EMPLOYEE_CNT": 3200,
+            "ANNUAL_REVENUE": 0,
+            "PHONE_NO": "053-803-0000",
+            "EMAIL": "admin@daegu.go.kr",
+            "ADDRESS": "대구 중구 공평로 88",
+            "CITY": "대구",
+            "CUSTOMER_GRADE": "C",
+            "CONTRACT_ST": "협의중",
+            "CONTRACT_DT": "",
+            "CONTRACT_END_DT": "",
+            "LAST_CONTACT_DT": "20250301",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "이민호",
+            "REG_DT": "20230115",
+            "MEMO": "지난 분기 계약 갱신 시 할인율 재조정 요청이 있었으며, 경쟁사 견적 대비 15% 이상 차이가 나는 항목에 대해 추가 협의가 필요함. 영업팀 내부 검토 후 4월 초 재제안 예정. 기술지원 SLA 변경도 함께 논의."
+          }
         ]
       }
     ]
@@ -42,19 +224,97 @@
       {
         "type": "대기업",
         "customers": [
-          { "CUSTOMER_ID": "C021", "CUSTOMER_NAME": "동원F&B", "CEO_NAME": "김동원", "CORP_NO": "606-81-55678", "CUSTOMER_DOMAIN": "dongwonfnb.com", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "식품", "EMPLOYEE_CNT": 2800, "ANNUAL_REVENUE": 31200, "PHONE_NO": "051-680-1114", "EMAIL": "contact@dongwonfnb.com", "ADDRESS": "부산 사하구 낙동대로 1번길 12", "CITY": "부산", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230701", "CONTRACT_END_DT": "20260630", "LAST_CONTACT_DT": "20250311", "STOCK_YN": "Y", "ADMIN_ID": "김철수", "REG_DT": "20200905", "MEMO": "VIP 고객" }
+          {
+            "CUSTOMER_ID": "C021",
+            "CUSTOMER_NAME": "동원F&B",
+            "CEO_NAME": "김동원",
+            "CORP_NO": "606-81-55678",
+            "CUSTOMER_DOMAIN": "dongwonfnb.com",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "대기업",
+            "INDUSTRY": "식품",
+            "EMPLOYEE_CNT": 2800,
+            "ANNUAL_REVENUE": 31200,
+            "PHONE_NO": "051-680-1114",
+            "EMAIL": "contact@dongwonfnb.com",
+            "ADDRESS": "부산 사하구 낙동대로 1번길 12",
+            "CITY": "부산",
+            "CUSTOMER_GRADE": "A",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20230701",
+            "CONTRACT_END_DT": "20260630",
+            "LAST_CONTACT_DT": "20250311",
+            "STOCK_YN": "Y",
+            "ADMIN_ID": "김철수",
+            "REG_DT": "20200905",
+            "MEMO": "VIP 고객"
+          }
         ]
       },
       {
         "type": "중견기업",
         "customers": [
-          { "CUSTOMER_ID": "C020", "CUSTOMER_NAME": "부산항만공사", "CEO_NAME": "박부산", "CORP_NO": "606-82-01234", "CUSTOMER_DOMAIN": "busanport.go.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중견기업", "INDUSTRY": "물류", "EMPLOYEE_CNT": 540, "ANNUAL_REVENUE": 8900, "PHONE_NO": "051-999-3000", "EMAIL": "info@busanport.go.kr", "ADDRESS": "부산 중구 충장대로 206", "CITY": "부산", "CUSTOMER_GRADE": "B", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20240101", "CONTRACT_END_DT": "20261231", "LAST_CONTACT_DT": "20250315", "STOCK_YN": "N", "ADMIN_ID": "박영희", "REG_DT": "20210801", "MEMO": "" }
+          {
+            "CUSTOMER_ID": "C020",
+            "CUSTOMER_NAME": "부산항만공사",
+            "CEO_NAME": "박부산",
+            "CORP_NO": "606-82-01234",
+            "CUSTOMER_DOMAIN": "busanport.go.kr",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "중견기업",
+            "INDUSTRY": "물류",
+            "EMPLOYEE_CNT": 540,
+            "ANNUAL_REVENUE": 8900,
+            "PHONE_NO": "051-999-3000",
+            "EMAIL": "info@busanport.go.kr",
+            "ADDRESS": "부산 중구 충장대로 206",
+            "CITY": "부산",
+            "CUSTOMER_GRADE": "B",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20240101",
+            "CONTRACT_END_DT": "20261231",
+            "LAST_CONTACT_DT": "20250315",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "박영희",
+            "REG_DT": "20210801",
+            "MEMO": "본사-지사 간 네트워크 통합 프로젝트 2단계가 6월부터 시작될 예정. 1단계에서 발생한 호환성 이슈 해결이 선행되어야 하며, 벤더 3사 비교 평가 진행 중. 기술 POC는 5월 중 완료 목표."
+          }
         ]
       },
       {
         "type": "중소기업",
         "customers": [
-          { "CUSTOMER_ID": "C022", "CUSTOMER_NAME": "부산시청", "CEO_NAME": "이시장", "CORP_NO": "606-83-00002", "CUSTOMER_DOMAIN": "busan.go.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "01", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "중소기업", "INDUSTRY": "공공", "EMPLOYEE_CNT": 4100, "ANNUAL_REVENUE": 0, "PHONE_NO": "051-888-0000", "EMAIL": "admin@busan.go.kr", "ADDRESS": "부산 연제구 중앙대로 1001", "CITY": "부산", "CUSTOMER_GRADE": "C", "CONTRACT_ST": "계약만료", "CONTRACT_DT": "20220101", "CONTRACT_END_DT": "20241231", "LAST_CONTACT_DT": "20250220", "STOCK_YN": "N", "ADMIN_ID": "박영희", "REG_DT": "20211020", "MEMO": "" }
+          {
+            "CUSTOMER_ID": "C022",
+            "CUSTOMER_NAME": "부산시청",
+            "CEO_NAME": "이시장",
+            "CORP_NO": "606-83-00002",
+            "CUSTOMER_DOMAIN": "busan.go.kr",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "01",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "중소기업",
+            "INDUSTRY": "공공",
+            "EMPLOYEE_CNT": 4100,
+            "ANNUAL_REVENUE": 0,
+            "PHONE_NO": "051-888-0000",
+            "EMAIL": "admin@busan.go.kr",
+            "ADDRESS": "부산 연제구 중앙대로 1001",
+            "CITY": "부산",
+            "CUSTOMER_GRADE": "C",
+            "CONTRACT_ST": "계약만료",
+            "CONTRACT_DT": "20220101",
+            "CONTRACT_END_DT": "20241231",
+            "LAST_CONTACT_DT": "20250220",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "박영희",
+            "REG_DT": "20211020",
+            "MEMO": ""
+          }
         ]
       }
     ]
@@ -65,7 +325,33 @@
       {
         "type": "대기업",
         "customers": [
-          { "CUSTOMER_ID": "C030", "CUSTOMER_NAME": "인천공항공사", "CEO_NAME": "최인천", "CORP_NO": "137-82-09876", "CUSTOMER_DOMAIN": "airport.kr", "CUSTOMER_DOMAIN_YN": "Y", "CUSTOMER_ST": "00", "MAIN_CUSTOMER_ID": "", "CUSTOMER_TYPE": "대기업", "INDUSTRY": "항공", "EMPLOYEE_CNT": 1650, "ANNUAL_REVENUE": 22100, "PHONE_NO": "032-741-0114", "EMAIL": "info@airport.kr", "ADDRESS": "인천 중구 공항로 272", "CITY": "인천", "CUSTOMER_GRADE": "A", "CONTRACT_ST": "계약중", "CONTRACT_DT": "20230401", "CONTRACT_END_DT": "20260331", "LAST_CONTACT_DT": "20250314", "STOCK_YN": "N", "ADMIN_ID": "김철수", "REG_DT": "20200401", "MEMO": "장기 계약 고객" }
+          {
+            "CUSTOMER_ID": "C030",
+            "CUSTOMER_NAME": "인천공항공사",
+            "CEO_NAME": "최인천",
+            "CORP_NO": "137-82-09876",
+            "CUSTOMER_DOMAIN": "airport.kr",
+            "CUSTOMER_DOMAIN_YN": "Y",
+            "CUSTOMER_ST": "00",
+            "MAIN_CUSTOMER_ID": "",
+            "CUSTOMER_TYPE": "대기업",
+            "INDUSTRY": "항공",
+            "EMPLOYEE_CNT": 1650,
+            "ANNUAL_REVENUE": 22100,
+            "PHONE_NO": "032-741-0114",
+            "EMAIL": "info@airport.kr",
+            "ADDRESS": "인천 중구 공항로 272",
+            "CITY": "인천",
+            "CUSTOMER_GRADE": "A",
+            "CONTRACT_ST": "계약중",
+            "CONTRACT_DT": "20230401",
+            "CONTRACT_END_DT": "20260331",
+            "LAST_CONTACT_DT": "20250314",
+            "STOCK_YN": "N",
+            "ADMIN_ID": "김철수",
+            "REG_DT": "20200401",
+            "MEMO": "2025년 상반기 대규모 인프라 구축 프로젝트 수주 예정. 기존 레거시 시스템 전면 교체 작업이 포함되며, 클라우드 마이그레이션과 보안 강화 컨설팅도 함께 진행할 계획. 담당자 김과장과 3월 중 미팅 예정."
+          }
         ]
       }
     ]

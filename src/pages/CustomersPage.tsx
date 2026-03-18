@@ -106,7 +106,7 @@ const COLUMNS: ColumnDef<Customer>[] = [
     render: (c) => <span className={styles.cellMono}>{formatDate(c.REG_DT)}</span> },
   { key: 'MEMO', label: '메모', width: '250px', editable: true, insertable: true,
     render: (c) => c.MEMO
-      ? <span title={c.MEMO}>{c.MEMO}</span>
+      ? <span>{c.MEMO}</span>
       : <span className={styles.cellEmpty}>-</span>,
     renderEditCell: ({ value, onChange, onSave, onCancel }) => (
       <div className={styles.memoEditWrap}>
@@ -170,6 +170,7 @@ const TABLE_CLASS_NAMES = {
   columnToggleCheckbox: styles.columnToggleCheckbox,
   contextMenu: styles.contextMenu,
   contextMenuItem: styles.contextMenuItem,
+  tooltip: styles.tooltip,
 }
 
 function renderEditCellUI({ value, onChange, onSave, onCancel }: EditCellProps) {
@@ -284,6 +285,7 @@ function InfiniteScrollTable() {
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
+        tooltip
       />
     </section>
   )
@@ -438,6 +440,8 @@ const CHILD_COLUMNS: ColumnDef<Customer>[] = [
   { key: 'ADMIN_ID', label: '담당자', width: '90px', sortable: true,
     filterType: 'select', filterOptions: [{ label: '김철수', value: '김철수' }, { label: '박영희', value: '박영희' }, { label: '이민호', value: '이민호' }],
     render: (c) => c.ADMIN_ID || <span className={styles.cellEmpty}>-</span> },
+  { key: 'MEMO', label: '메모', width: '200px',
+    render: (c) => c.MEMO || <span className={styles.cellEmpty}>-</span> },
 ]
 
 const TYPE_EXPAND_DEF: ExpandDef<CustomerTypeGroup, Customer> = {
@@ -516,6 +520,7 @@ function GroupedTable() {
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
+        tooltip
       />
     </section>
   )
