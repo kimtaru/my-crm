@@ -305,6 +305,7 @@ function InfiniteScrollTable() {
         cellContextMenuItems={[
           { label: '테스트_구현중', onClick: () => alert('구현중') },
         ]}
+        keyboardNavigation
       />
     </section>
   )
@@ -389,6 +390,7 @@ function PaginationTable() {
         cellContextMenuItems={[
           { label: '테스트_구현중', onClick: () => alert('구현중') },
         ]}
+        keyboardNavigation
       />
       <Pagination page={page} totalPages={totalPages} onChange={setPage} />
     </section>
