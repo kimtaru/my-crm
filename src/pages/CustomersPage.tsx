@@ -256,47 +256,53 @@ function InfiniteScrollTable() {
       <Table
         columns={COLUMNS}
         data={customers}
-        loading={isLoading}
-        stickyHeader
-        virtualScroll
-        rowHeight={44}
-        hiddenKeys={hiddenKeys}
-        onHiddenKeysChange={setHiddenKeys}
-        columnOrder={columnOrder}
-        onColumnOrderChange={setColumnOrder}
-        pinnedKeys={pinnedKeys}
-        onPinnedKeysChange={setPinnedKeys}
-        pinnedBg={{ header: '#1e293b', body: '#0f172a' }}
-        filterable={showFilter}
-        filters={filters}
-        onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
-        filterDebounce={300}
+        rowKey={(c) => c.CUSTOMER_ID}
+        classNames={TABLE_CLASS_NAMES}
+        loading={{ enabled: isLoading }}
+        scroll={{
+          stickyHeader: true,
+          virtual: true,
+          rowHeight: 44,
+          onLoadMore: () => fetchNextPage(),
+          hasMore: !!hasNextPage,
+          loadingMore: isFetchingNextPage,
+        }}
+        columnManager={{
+          hiddenKeys,
+          onHiddenKeysChange: setHiddenKeys,
+          order: columnOrder,
+          onOrderChange: setColumnOrder,
+          pinned: pinnedKeys,
+          onPinnedChange: setPinnedKeys,
+          pinnedBg: { header: '#1e293b', body: '#0f172a' },
+          resizable: true,
+          widths: columnWidths,
+          onWidthChange: (key, width) => setColumnWidths((prev) => ({ ...prev, [key]: width })),
+        }}
+        filter={{
+          enabled: showFilter,
+          values: filters,
+          onChange: (key, val) => setFilters((prev) => ({ ...prev, [key]: val })),
+          debounce: 300,
+        }}
         headerMenuItems={[
           { label: showFilter ? '필터 숨기기' : '필터', onClick: () => setShowFilter((v) => !v) },
           { label: '필터 초기화', onClick: () => setFilters({}) },
           { label: '정렬 초기화', onClick: () => setSorts([]) },
         ]}
-        rowKey={(c) => c.CUSTOMER_ID}
-        classNames={TABLE_CLASS_NAMES}
-        resizable
-        columnWidths={columnWidths}
-        onColumnWidthChange={(key, width) => setColumnWidths((prev) => ({ ...prev, [key]: width }))}
-        selectable
-        selectedKeys={selectedKeys}
-        onSelectedKeysChange={setSelectedKeys}
-        sorts={sorts}
-        onSortsChange={setSorts}
-        onCellChange={(rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value })}
-        addingRow={isAdding}
-        onRowAdd={(values) => { console.log('추가:', values); setIsAdding(false) }}
-        onAddingRowCancel={() => setIsAdding(false)}
-        deletable
-        // noHeaderMenu
-        onRowDelete={(key) => console.log('삭제:', key)}
-        onLoadMore={() => fetchNextPage()}
-        hasMore={!!hasNextPage}
-        loadingMore={isFetchingNextPage}
-        renderEditCell={renderEditCellUI}
+        selection={{ enabled: true, keys: selectedKeys, onChange: setSelectedKeys }}
+        sorting={{ sorts, onSortsChange: setSorts }}
+        editing={{
+          onCellChange: (rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value }),
+          renderCell: renderEditCellUI,
+        }}
+        rowActions={{
+          adding: isAdding,
+          onAdd: (values) => { console.log('추가:', values); setIsAdding(false) },
+          onAddCancel: () => setIsAdding(false),
+          deletable: true,
+          onDelete: (key) => console.log('삭제:', key),
+        }}
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
@@ -349,40 +355,45 @@ function PaginationTable() {
       <Table
         columns={COLUMNS}
         data={customers}
-        loading={isLoading}
-        hiddenKeys={hiddenKeys}
-        onHiddenKeysChange={setHiddenKeys}
-        columnOrder={columnOrder}
-        onColumnOrderChange={setColumnOrder}
-        pinnedKeys={pinnedKeys}
-        onPinnedKeysChange={setPinnedKeys}
-        pinnedBg={{ header: '#1e293b', body: '#0f172a' }}
-        filterable={showFilter}
-        filters={filters}
-        onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
-        filterDebounce={300}
+        rowKey={(c) => c.CUSTOMER_ID}
+        classNames={TABLE_CLASS_NAMES}
+        loading={{ enabled: isLoading }}
+        columnManager={{
+          hiddenKeys,
+          onHiddenKeysChange: setHiddenKeys,
+          order: columnOrder,
+          onOrderChange: setColumnOrder,
+          pinned: pinnedKeys,
+          onPinnedChange: setPinnedKeys,
+          pinnedBg: { header: '#1e293b', body: '#0f172a' },
+          resizable: true,
+          widths: columnWidths,
+          onWidthChange: (key, width) => setColumnWidths((prev) => ({ ...prev, [key]: width })),
+        }}
+        filter={{
+          enabled: showFilter,
+          values: filters,
+          onChange: (key, val) => setFilters((prev) => ({ ...prev, [key]: val })),
+          debounce: 300,
+        }}
         headerMenuItems={[
           { label: showFilter ? '필터 숨기기' : '필터', onClick: () => setShowFilter((v) => !v) },
           { label: '필터 초기화', onClick: () => setFilters({}) },
           { label: '정렬 초기화', onClick: () => setSorts([]) },
         ]}
-        rowKey={(c) => c.CUSTOMER_ID}
-        classNames={TABLE_CLASS_NAMES}
-        resizable
-        columnWidths={columnWidths}
-        onColumnWidthChange={(key, width) => setColumnWidths((prev) => ({ ...prev, [key]: width }))}
-        selectable
-        selectedKeys={selectedKeys}
-        onSelectedKeysChange={setSelectedKeys}
-        sorts={sorts}
-        onSortsChange={setSorts}
-        onCellChange={(rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value })}
-        addingRow={isAdding}
-        onRowAdd={(values) => { console.log('추가:', values); setIsAdding(false) }}
-        onAddingRowCancel={() => setIsAdding(false)}
-        deletable
-        onRowDelete={(key) => console.log('삭제:', key)}
-        renderEditCell={renderEditCellUI}
+        selection={{ enabled: true, keys: selectedKeys, onChange: setSelectedKeys }}
+        sorting={{ sorts, onSortsChange: setSorts }}
+        editing={{
+          onCellChange: (rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value }),
+          renderCell: renderEditCellUI,
+        }}
+        rowActions={{
+          adding: isAdding,
+          onAdd: (values) => { console.log('추가:', values); setIsAdding(false) },
+          onAddCancel: () => setIsAdding(false),
+          deletable: true,
+          onDelete: (key) => console.log('삭제:', key),
+        }}
         onRowClick={(_row, _rk, _e) => console.log('[Click]', JSON.stringify(_row, null, 2))}
         onRowDoubleClick={(_row, _rk, _e) => console.log('[DblClick]', JSON.stringify(_row, null, 2))}
         rowClassName={(row) => (row as any).EMPLOYEE_CNT <= 10000 ? styles.smallCompanyRow : undefined}
@@ -523,24 +534,34 @@ function GroupedTable() {
         data={GROUPED_DUMMY_DATA}
         rowKey={(g) => g.area}
         classNames={TABLE_CLASS_NAMES}
-        expandDef={AREA_EXPAND_DEF}
-        expandedKeys={expandedKeys}
-        onExpandedKeysChange={setExpandedKeys}
-        childSelectable
-        childSelectedKeys={childSelectedKeys}
-        onChildSelectedKeysChange={setChildSelectedKeys}
-        childDeletable
-        onChildRowDelete={(gk, ck) => console.log('그룹 삭제:', gk, ck)}
-        onCellChange={(rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value })}
-        renderEditCell={renderEditCellUI}
-        filterable={showFilter}
-        filters={filters}
-        onFilterChange={(key, val) => setFilters((prev) => ({ ...prev, [key]: val }))}
-        filterDebounce={300}
-        hiddenKeys={hiddenKeys}
-        onHiddenKeysChange={setHiddenKeys}
-        columnOrder={columnOrder}
-        onColumnOrderChange={setColumnOrder}
+        expand={{
+          def: AREA_EXPAND_DEF,
+          keys: expandedKeys,
+          onKeysChange: setExpandedKeys,
+          childSelection: {
+            enabled: true,
+            keys: childSelectedKeys,
+            onChange: setChildSelectedKeys,
+          },
+          childDeletable: true,
+          onChildDelete: (gk, ck) => console.log('그룹 삭제:', gk, ck),
+        }}
+        editing={{
+          onCellChange: (rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value }),
+          renderCell: renderEditCellUI,
+        }}
+        filter={{
+          enabled: showFilter,
+          values: filters,
+          onChange: (key, val) => setFilters((prev) => ({ ...prev, [key]: val })),
+          debounce: 300,
+        }}
+        columnManager={{
+          hiddenKeys,
+          onHiddenKeysChange: setHiddenKeys,
+          order: columnOrder,
+          onOrderChange: setColumnOrder,
+        }}
         headerMenuItems={[
           { label: '전체 펼치기', onClick: expandAll },
           { label: '전체 접기', onClick: () => setExpandedKeys([]) },
