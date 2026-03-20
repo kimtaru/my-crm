@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "mycrm": "file:../my-crm-ui",
     "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.6",
+    "mycrm-ui": "^0.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.0"

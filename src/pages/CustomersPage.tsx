@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Table, type ColumnDef, type ExpandDef, type EditCellProps, type SortState } from 'mycrm'
+import { Table, type ColumnDef, type ExpandDef, type EditCellProps, type SortState } from 'mycrm-ui'
 import { useCustomerInfiniteList } from '@/features/customers/hooks/useCustomerInfiniteList'
 import { useCustomerList } from '@/features/customers/hooks/useCustomerList'
 import Pagination from '@/components/Pagination'
