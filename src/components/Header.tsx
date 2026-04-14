@@ -2,10 +2,10 @@ import { Link, NavLink } from 'react-router-dom'
 import styles from './Header.module.css'
 
 const NAV_ITEMS = [
-  { path: '/', label: '대시보드', icon: '▦' },
-  { path: '/customers', label: '고객', icon: '👥' },
-  { path: '/sales', label: '영업', icon: '📈' },
-  { path: '/orders', label: '주문', icon: '📋' },
+  { path: '/', label: '대시보드' },
+  { path: '/table', label: '테이블' },
+  { path: '/sales', label: '오버레이' },
+  { path: '/orders', label: '칸반보드' },
 ] as const
 
 export default function Header() {
@@ -19,7 +19,7 @@ export default function Header() {
       </NavLink>
 
       <nav className={styles.nav}>
-        {NAV_ITEMS.map(({ path, label, icon }) => (
+        {NAV_ITEMS.map(({ path, label }) => (
           <NavLink
             key={path}
             to={path}
@@ -28,7 +28,6 @@ export default function Header() {
               `${styles.navLink}${isActive ? ` ${styles.active}` : ''}`
             }
           >
-            <span>{icon}</span>
             {label}
           </NavLink>
         ))}

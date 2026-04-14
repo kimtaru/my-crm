@@ -4,7 +4,7 @@ import { useCustomerInfiniteList } from '@/features/customers/hooks/useCustomerI
 import { useCustomerList } from '@/features/customers/hooks/useCustomerList'
 import Pagination from '@/components/Pagination'
 import type { Customer } from '@/features/customers/api'
-import styles from './CustomersPage.module.css'
+import styles from './TablePage.module.css'
 import _groupedData from './groupedCustomers.json'
 
 function formatDate(raw: string) {
@@ -579,10 +579,10 @@ function GroupedTable() {
 }
 
 /* ── 메인 페이지 ── */
-export default function CustomersPage() {
+export default function TablePage() {
   return (
     <div className={styles.page}>
-      <h1 className={styles.pageTitle} style={{ marginBottom: 20 }}>고객 목록</h1>
+      <h1 className={styles.pageTitle} style={{ marginBottom: 20 }}>테이블</h1>
       <GroupedTable />
       <InfiniteScrollTable />
       <PaginationTable />
