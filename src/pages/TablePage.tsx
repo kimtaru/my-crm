@@ -221,6 +221,7 @@ function InfiniteScrollTable() {
   const [sorts, setSorts] = useState<SortState[]>([])
   const [isAdding, setIsAdding] = useState(false)
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [pinnedRowKeys, setPinnedRowKeys] = useState<string[]>([])
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [showFilter, setShowFilter] = useState(false)
@@ -292,6 +293,11 @@ function InfiniteScrollTable() {
         ]}
         selection={{ enabled: true, keys: selectedKeys, onChange: setSelectedKeys }}
         sorting={{ sorts, onSortsChange: setSorts }}
+        rowPinning={{
+          enabled: true,
+          keys: pinnedRowKeys,
+          onKeysChange: setPinnedRowKeys,
+        }}
         editing={{
           onCellChange: (rowKey, colKey, value) => console.log('수정:', { rowKey, colKey, value }),
           renderCell: renderEditCellUI,
