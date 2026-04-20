@@ -1,0 +1,83 @@
+.page {
+  padding: 56px 24px 72px;
+  display: grid;
+  gap: 64px;
+}
+
+.header {
+  display: grid;
+  gap: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.calendarWrap {
+  width: 100%;
+  max-width: 420px;
+  display: grid;
+  gap: 24px;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+.controlField {
+  display: grid;
+  gap: 8px;
+}
+
+.controlLabel {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.controlSelect {
+  min-width: 120px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+}
+
+.controlSelect:focus {
+  border-color: #64748b;
+}
+
+.calendarWeekday {
+  color: #ffffff;
+  height: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.calendarWeekdaySun {
+  color: #ef4444;
+}
+
+.calendarWeekdaySat {
+  color: #3b82f6;
+}
+
+.calendarCurrentMonthDay {
+  color: #ffffff;
+}
+
+.calendarAdjacentMonthDay {
+  color: #a3a3a3;
+}

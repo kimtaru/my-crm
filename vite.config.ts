@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@mycrm-ui/components': path.resolve(__dirname, '../mycrm-ui/packages/components/src/index.ts'),
       '@mycrm-ui/react': path.resolve(__dirname, '../mycrm-ui/packages/react/src/index.ts'),
       '@mycrm-ui/table': path.resolve(__dirname, '../mycrm-ui/packages/table/src/index.ts'),
       '@mycrm-ui/react-table': path.resolve(__dirname, '../mycrm-ui/packages/react-table/src/index.ts'),

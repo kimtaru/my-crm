@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@mycrm-ui/components": ["../mycrm-ui/packages/components/src/index.ts"],
       "@mycrm-ui/react": ["../mycrm-ui/packages/react/src/index.ts"],
       "@mycrm-ui/table": ["../mycrm-ui/packages/table/src/index.ts"],
       "@mycrm-ui/react-table": ["../mycrm-ui/packages/react-table/src/index.ts"]
