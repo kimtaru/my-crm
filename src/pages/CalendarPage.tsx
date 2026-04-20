@@ -9,6 +9,9 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   weekday: styles.calendarWeekday,
   weekdaySun: styles.calendarWeekdaySun,
   weekdaySat: styles.calendarWeekdaySat,
+  day: styles.calendarDay,
+  daySun: styles.calendarDaySun,
+  daySat: styles.calendarDaySat,
   currentMonthDay: styles.calendarCurrentMonthDay,
   adjacentMonthDay: styles.calendarAdjacentMonthDay,
 }
@@ -64,6 +67,7 @@ export default function CalendarPage() {
           month={selectedMonth}
           weekdayLabelType="ko"
           classNames={CALENDAR_CLASS_NAMES}
+          showAdjacentMonthDays={true}
         />
       </div>
     </section>
