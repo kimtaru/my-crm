@@ -12,8 +12,10 @@ export interface AppRoute {
 
 const HomePage = lazy(() => import('@/pages/HomePage.tsx'))
 const TablePage = lazy(() => import('@/pages/TablePage.tsx'))
+const CalendarPage = lazy(() => import('@/pages/CalendarPage.tsx'))
 
 export const routes: AppRoute[] = [
   { path: '/', element: HomePage, index: true },
   { path: '/table', element: TablePage },
+  { path: '/calendar', element: CalendarPage },
 ]

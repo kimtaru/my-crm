@@ -4,7 +4,7 @@ import styles from './Header.module.css'
 const NAV_ITEMS = [
   { path: '/', label: '대시보드' },
   { path: '/table', label: '테이블' },
-  { path: '/sales', label: '오버레이' },
+  { path: '/calendar', label: '캘린더' },
   { path: '/orders', label: '칸반보드' },
 ] as const
 
