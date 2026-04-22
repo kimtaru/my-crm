@@ -10,8 +10,11 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   weekdaySun: styles.calendarWeekdaySun,
   weekdaySat: styles.calendarWeekdaySat,
   day: styles.calendarDay,
+  dayHover: styles.calendarDayHover,
   daySun: styles.calendarDaySun,
   daySat: styles.calendarDaySat,
+  selectedDay: styles.calendarSelectedDay,
+  todayDay: styles.calendarTodayDay,
   currentMonthDay: styles.calendarCurrentMonthDay,
   adjacentMonthDay: styles.calendarAdjacentMonthDay,
 }
@@ -19,6 +22,11 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
 export default function CalendarPage() {
   const [selectedYear, setSelectedYear] = useState(2026)
   const [selectedMonth, setSelectedMonth] = useState(4)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
+  const selectedDateLabel = selectedDate
+    ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
+    : '선택된 날짜가 없습니다.'
 
   return (
     <section className={styles.page}>
@@ -62,12 +70,20 @@ export default function CalendarPage() {
           </label>
         </div>
 
+        <div className={styles.selectedDatePanel}>
+          <span className={styles.selectedDateLabel}>선택한 날짜</span>
+          <strong className={styles.selectedDateValue}>{selectedDateLabel}</strong>
+        </div>
+
         <Calendar
           year={selectedYear}
           month={selectedMonth}
           weekdayLabelType="ko"
           classNames={CALENDAR_CLASS_NAMES}
           showAdjacentMonthDays={true}
+          showToday={true}
+          showHover={true}
+          onDateSelect={setSelectedDate}
         />
       </div>
     </section>

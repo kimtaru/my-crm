@@ -33,6 +33,26 @@
   gap: 12px;
 }
 
+.selectedDatePanel {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background-color: rgba(15, 23, 42, 0.78);
+}
+
+.selectedDateLabel {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.selectedDateValue {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .controlField {
   display: grid;
   gap: 8px;
@@ -90,10 +110,34 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+.calendarDayHover {
+  width: 35px;
+  height: 35px;
+  border-radius: 999px;
+  background-color: #eaa6a6;
+  color: #111827;
+  font-weight: 700;
+}
+
 .calendarDaySun {
   color: #ef4444;
 }
 
 .calendarDaySat {
   color: #3b82f6;
+}
+
+.calendarTodayDay {
+  border-radius: 45px;
+  background-color: #3b82f6;
+  width: 35px;
+  height: 35px;
+}
+
+.calendarSelectedDay {
+  font-weight: 900;
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  background-color: #505de5;
 }
