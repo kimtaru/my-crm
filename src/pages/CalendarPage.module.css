@@ -127,6 +127,10 @@
   color: #3b82f6;
 }
 
+.calendarDisabledDay {
+  color: #414041;
+}
+
 .calendarTodayDay {
   border-radius: 45px;
   background-color: #3b82f6;

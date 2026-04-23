@@ -4,6 +4,7 @@ import styles from './CalendarPage.module.css'
 
 const YEAR_OPTIONS = Array.from({ length: 11 }, (_, index) => 2021 + index)
 const MONTH_OPTIONS = Array.from({ length: 12 }, (_, index) => index + 1)
+const DISABLED_DATE_KEYS = new Set(['2026-04-08', '2026-04-14', '2026-04-23', '2026-05-01'])
 
 const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   weekday: styles.calendarWeekday,
@@ -13,10 +14,19 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   dayHover: styles.calendarDayHover,
   daySun: styles.calendarDaySun,
   daySat: styles.calendarDaySat,
+  disabledDay: styles.calendarDisabledDay,
   selectedDay: styles.calendarSelectedDay,
   todayDay: styles.calendarTodayDay,
   currentMonthDay: styles.calendarCurrentMonthDay,
   adjacentMonthDay: styles.calendarAdjacentMonthDay,
+}
+
+function formatDateKey(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
 }
 
 export default function CalendarPage() {
@@ -83,6 +93,7 @@ export default function CalendarPage() {
           showAdjacentMonthDays={true}
           showToday={true}
           showHover={true}
+          isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
           onDateSelect={setSelectedDate}
         />
       </div>
