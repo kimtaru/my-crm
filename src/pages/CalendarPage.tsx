@@ -31,7 +31,7 @@ function formatDateKey(date: Date) {
 
 export default function CalendarPage() {
   const [selectedYear, setSelectedYear] = useState(2026)
-  const [selectedMonth, setSelectedMonth] = useState(4)
+  const [selectedMonth, setSelectedMonth] = useState(12)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   const selectedDateLabel = selectedDate
@@ -43,7 +43,7 @@ export default function CalendarPage() {
       <div className={styles.header}>
         <h1 className={styles.title}>Calendar</h1>
         <p className={styles.description}>
-          mycrm-ui 캘린더 컴포넌트 신규 개발을 위한 테스트 화면입니다.
+          mycrm-ui Calendar 컴포넌트 테스트 화면입니다.
         </p>
       </div>
 
