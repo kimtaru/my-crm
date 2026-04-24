@@ -33,12 +33,16 @@ export default function CalendarPage() {
   const [selectedYear, setSelectedYear] = useState(2026)
   const [selectedMonth, setSelectedMonth] = useState(4)
   const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-04-22')
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
 
   const selectedDateLabel = selectedDate
     ? selectedDate instanceof Date
       ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
       : selectedDate
     : '선택된 날짜가 없습니다.'
+  const hoveredDateLabel = hoveredDate
+    ? `${hoveredDate.getFullYear()}년 ${hoveredDate.getMonth() + 1}월 ${hoveredDate.getDate()}일`
+    : 'hover 중인 날짜가 없습니다.'
 
   return (
     <section className={styles.page}>
@@ -85,6 +89,8 @@ export default function CalendarPage() {
         <div className={styles.selectedDatePanel}>
           <span className={styles.selectedDateLabel}>선택한 날짜</span>
           <strong className={styles.selectedDateValue}>{selectedDateLabel}</strong>
+          <span className={styles.selectedDateLabel}>Hover 날짜</span>
+          <strong className={styles.selectedDateValue}>{hoveredDateLabel}</strong>
         </div>
 
         <Calendar
@@ -96,9 +102,11 @@ export default function CalendarPage() {
           showToday={true}
           showHover={true}
           selectedDate={selectedDate}
+          hoveredDate={hoveredDate}
           dateSelectValueType="yyyy-MM-dd"
           isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
           onDateSelect={setSelectedDate}
+          onHoverDateChange={setHoveredDate}
         />
       </div>
     </section>
