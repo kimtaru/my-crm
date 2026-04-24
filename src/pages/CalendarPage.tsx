@@ -31,11 +31,13 @@ function formatDateKey(date: Date) {
 
 export default function CalendarPage() {
   const [selectedYear, setSelectedYear] = useState(2026)
-  const [selectedMonth, setSelectedMonth] = useState(12)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [selectedMonth, setSelectedMonth] = useState(4)
+  const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-04-22')
 
   const selectedDateLabel = selectedDate
-    ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
+    ? selectedDate instanceof Date
+      ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
+      : selectedDate
     : '선택된 날짜가 없습니다.'
 
   return (
@@ -93,6 +95,8 @@ export default function CalendarPage() {
           showAdjacentMonthDays={true}
           showToday={true}
           showHover={true}
+          selectedDate={selectedDate}
+          dateSelectValueType="yyyy-MM-dd"
           isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
           onDateSelect={setSelectedDate}
         />
