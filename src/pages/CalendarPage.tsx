@@ -33,6 +33,8 @@ export default function CalendarPage() {
   const [selectedYear, setSelectedYear] = useState(2026)
   const [selectedMonth, setSelectedMonth] = useState(4)
   const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-04-22')
+  const [rangeStart, setRangeStart] = useState<Date | string | null>(null)
+  const [rangeEnd, setRangeEnd] = useState<Date | string | null>(null)
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
 
   const selectedDateLabel = selectedDate
@@ -40,9 +42,25 @@ export default function CalendarPage() {
       ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
       : selectedDate
     : '선택된 날짜가 없습니다.'
+  const rangeStartLabel = rangeStart instanceof Date
+    ? `${rangeStart.getFullYear()}년 ${rangeStart.getMonth() + 1}월 ${rangeStart.getDate()}일`
+    : rangeStart ?? '시작일이 없습니다.'
+  const rangeEndLabel = rangeEnd instanceof Date
+    ? `${rangeEnd.getFullYear()}년 ${rangeEnd.getMonth() + 1}월 ${rangeEnd.getDate()}일`
+    : rangeEnd ?? '종료일이 없습니다.'
   const hoveredDateLabel = hoveredDate
     ? `${hoveredDate.getFullYear()}년 ${hoveredDate.getMonth() + 1}월 ${hoveredDate.getDate()}일`
     : 'hover 중인 날짜가 없습니다.'
+
+  const handleRangeDateSelect = (date: Date | string) => {
+    if (!rangeStart || rangeEnd) {
+      setRangeStart(date)
+      setRangeEnd(null)
+      return
+    }
+
+    setRangeEnd(date)
+  }
 
   return (
     <section className={styles.page}>
@@ -86,28 +104,60 @@ export default function CalendarPage() {
           </label>
         </div>
 
-        <div className={styles.selectedDatePanel}>
-          <span className={styles.selectedDateLabel}>선택한 날짜</span>
-          <strong className={styles.selectedDateValue}>{selectedDateLabel}</strong>
-          <span className={styles.selectedDateLabel}>Hover 날짜</span>
-          <strong className={styles.selectedDateValue}>{hoveredDateLabel}</strong>
-        </div>
+        <div className={styles.demoGrid}>
+          <section className={styles.demoSection}>
+            <h2 className={styles.demoTitle}>Single Select</h2>
+            <div className={styles.selectedDatePanel}>
+              <span className={styles.selectedDateLabel}>선택한 날짜</span>
+              <strong className={styles.selectedDateValue}>{selectedDateLabel}</strong>
+            </div>
 
-        <Calendar
-          year={selectedYear}
-          month={selectedMonth}
-          weekdayLabelType="ko"
-          classNames={CALENDAR_CLASS_NAMES}
-          showAdjacentMonthDays={true}
-          showToday={true}
-          showHover={true}
-          selectedDate={selectedDate}
-          hoveredDate={hoveredDate}
-          dateSelectValueType="yyyy-MM-dd"
-          isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
-          onDateSelect={setSelectedDate}
-          onHoverDateChange={setHoveredDate}
-        />
+            <Calendar
+              year={selectedYear}
+              month={selectedMonth}
+              weekdayLabelType="ko"
+              classNames={CALENDAR_CLASS_NAMES}
+              showAdjacentMonthDays={true}
+              showToday={true}
+              showHover={true}
+              selectionMode="single"
+              selectedDate={selectedDate}
+              dateSelectValueType="yyyy-MM-dd"
+              isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
+              onDateSelect={setSelectedDate}
+            />
+          </section>
+
+          <section className={styles.demoSection}>
+            <h2 className={styles.demoTitle}>Range Select</h2>
+            <div className={styles.selectedDatePanel}>
+              <span className={styles.selectedDateLabel}>Range 시작일</span>
+              <strong className={styles.selectedDateValue}>{rangeStartLabel}</strong>
+              <span className={styles.selectedDateLabel}>Range 종료일</span>
+              <strong className={styles.selectedDateValue}>{rangeEndLabel}</strong>
+              <span className={styles.selectedDateLabel}>Hover 날짜</span>
+              <strong className={styles.selectedDateValue}>{hoveredDateLabel}</strong>
+            </div>
+
+            <Calendar
+              year={selectedYear}
+              month={selectedMonth}
+              weekdayLabelType="ko"
+              classNames={CALENDAR_CLASS_NAMES}
+              showAdjacentMonthDays={true}
+              showToday={true}
+              showHover={true}
+              selectionMode="range"
+              rangeStart={rangeStart}
+              rangeEnd={rangeEnd}
+              hoveredDate={hoveredDate}
+              dateSelectValueType="yyyy-MM-dd"
+              isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
+              onDateSelect={handleRangeDateSelect}
+              onHoverDateChange={setHoveredDate}
+            />
+          </section>
+        </div>
       </div>
     </section>
   )
