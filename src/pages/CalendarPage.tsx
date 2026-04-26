@@ -4,7 +4,9 @@ import styles from './CalendarPage.module.css'
 
 const YEAR_OPTIONS = Array.from({ length: 11 }, (_, index) => 2021 + index)
 const MONTH_OPTIONS = Array.from({ length: 12 }, (_, index) => index + 1)
-const DISABLED_DATE_KEYS = new Set(['2026-04-08', '2026-04-14', '2026-04-23', '2026-05-01'])
+const SELECTABLE_START_DATE = '2026-01-01'
+const SELECTABLE_END_DATE = '2026-05-05'
+const SELECTABLE_PERIOD_LABEL = '2026년 1월 1일 ~ 2026년 5월 1일'
 
 const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   weekday: styles.calendarWeekday,
@@ -19,14 +21,6 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   todayDay: styles.calendarTodayDay,
   currentMonthDay: styles.calendarCurrentMonthDay,
   adjacentMonthDay: styles.calendarAdjacentMonthDay,
-}
-
-function formatDateKey(date: Date) {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-
-  return `${year}-${month}-${day}`
 }
 
 export default function CalendarPage() {
@@ -108,6 +102,11 @@ export default function CalendarPage() {
           <section className={styles.demoSection}>
             <h2 className={styles.demoTitle}>Single Select</h2>
             <div className={styles.selectedDatePanel}>
+              <span className={styles.selectedDateLabel}>선택 가능 기간</span>
+              <strong className={styles.selectedDateValue}>{SELECTABLE_PERIOD_LABEL}</strong>
+              <p className={styles.helperText}>
+                기간 안의 날짜만 선택할 수 있고, 그 이전/이후 날짜는 선택할 수 없습니다.
+              </p>
               <span className={styles.selectedDateLabel}>선택한 날짜</span>
               <strong className={styles.selectedDateValue}>{selectedDateLabel}</strong>
             </div>
@@ -122,8 +121,9 @@ export default function CalendarPage() {
               showHover={true}
               selectionMode="single"
               selectedDate={selectedDate}
+              selectableStartDate={SELECTABLE_START_DATE}
+              selectableEndDate={SELECTABLE_END_DATE}
               dateSelectValueType="yyyy-MM-dd"
-              isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
               onDateSelect={setSelectedDate}
             />
           </section>
@@ -131,6 +131,11 @@ export default function CalendarPage() {
           <section className={styles.demoSection}>
             <h2 className={styles.demoTitle}>Range Select</h2>
             <div className={styles.selectedDatePanel}>
+              <span className={styles.selectedDateLabel}>선택 가능 기간</span>
+              <strong className={styles.selectedDateValue}>{SELECTABLE_PERIOD_LABEL}</strong>
+              <p className={styles.helperText}>
+                Range 선택도 동일하게 기간 안에서만 시작일과 종료일을 고를 수 있습니다.
+              </p>
               <span className={styles.selectedDateLabel}>Range 시작일</span>
               <strong className={styles.selectedDateValue}>{rangeStartLabel}</strong>
               <span className={styles.selectedDateLabel}>Range 종료일</span>
@@ -151,8 +156,9 @@ export default function CalendarPage() {
               rangeStart={rangeStart}
               rangeEnd={rangeEnd}
               hoveredDate={hoveredDate}
+              selectableStartDate={SELECTABLE_START_DATE}
+              selectableEndDate={SELECTABLE_END_DATE}
               dateSelectValueType="yyyy-MM-dd"
-              isDateDisabled={(date) => DISABLED_DATE_KEYS.has(formatDateKey(date))}
               onDateSelect={handleRangeDateSelect}
               onHoverDateChange={setHoveredDate}
             />

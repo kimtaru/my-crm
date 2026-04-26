@@ -72,6 +72,13 @@
   font-weight: 700;
 }
 
+.helperText {
+  margin: 0 0 4px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .controlField {
   display: grid;
   gap: 8px;
