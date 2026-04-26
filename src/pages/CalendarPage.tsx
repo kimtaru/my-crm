@@ -5,7 +5,7 @@ import styles from './CalendarPage.module.css'
 const YEAR_OPTIONS = Array.from({ length: 11 }, (_, index) => 2021 + index)
 const MONTH_OPTIONS = Array.from({ length: 12 }, (_, index) => index + 1)
 const SELECTABLE_START_DATE = '2026-01-01'
-const SELECTABLE_END_DATE = '2026-05-05'
+const SELECTABLE_END_DATE = '2026-05-01'
 const SELECTABLE_PERIOD_LABEL = '2026년 1월 1일 ~ 2026년 5월 1일'
 
 const CALENDAR_CLASS_NAMES: CalendarClassNames = {
@@ -18,6 +18,11 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   daySat: styles.calendarDaySat,
   disabledDay: styles.calendarDisabledDay,
   selectedDay: styles.calendarSelectedDay,
+  rangeStartDay: styles.calendarRangeStartDay,
+  rangeEndDay: styles.calendarRangeEndDay,
+  rangeInsideDay: styles.calendarRangeInsideDay,
+  rangePreviewDay: styles.calendarRangePreviewDay,
+  rangeSingleDay: styles.calendarRangeSingleDay,
   todayDay: styles.calendarTodayDay,
   currentMonthDay: styles.calendarCurrentMonthDay,
   adjacentMonthDay: styles.calendarAdjacentMonthDay,
@@ -135,6 +140,10 @@ export default function CalendarPage() {
               <strong className={styles.selectedDateValue}>{SELECTABLE_PERIOD_LABEL}</strong>
               <p className={styles.helperText}>
                 Range 선택도 동일하게 기간 안에서만 시작일과 종료일을 고를 수 있습니다.
+              </p>
+              <p className={styles.helperText}>
+                현재 데모는 `rangeStartDay`, `rangeEndDay`, `rangeInsideDay`, `rangePreviewDay`,
+                `rangeSingleDay` className을 사용해 범위 스타일을 커스텀하고 있습니다.
               </p>
               <span className={styles.selectedDateLabel}>Range 시작일</span>
               <strong className={styles.selectedDateValue}>{rangeStartLabel}</strong>
