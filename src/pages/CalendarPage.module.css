@@ -23,14 +23,14 @@
 
 .calendarWrap {
   width: 100%;
-  max-width: 960px;
+  max-width: 1320px;
   display: grid;
   gap: 24px;
 }
 
 .demoGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 420px));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 40px;
   align-items: start;
 }
@@ -77,6 +77,25 @@
   color: #cbd5e1;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.selectedDatesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.selectedDateChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.18);
+  color: #e0e7ff;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .controlField {
@@ -216,6 +235,6 @@
 
 @media (max-width: 920px) {
   .demoGrid {
-    grid-template-columns: minmax(0, 420px);
+    grid-template-columns: minmax(0, 1fr);
   }
 }
