@@ -85,6 +85,20 @@
   gap: 10px;
 }
 
+.markerMetaJson {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(71, 85, 105, 0.8);
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.72);
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
 .selectedDateChip {
   display: inline-flex;
   align-items: center;
@@ -189,6 +203,11 @@
   width: 100%;
   height: 100%;
   background-color: #505de5;
+}
+
+.calendarDayMarker {
+  background-color: #facc15;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.3);
 }
 
 .calendarRangeStartDay {
