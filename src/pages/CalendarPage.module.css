@@ -49,7 +49,34 @@
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
+  align-items: end;
   gap: 12px;
+}
+
+.monthNavigation {
+  display: flex;
+  gap: 10px;
+}
+
+.monthNavButton {
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.monthNavButton:hover,
+.monthNavButton:focus-visible {
+  border-color: #64748b;
+  background-color: #162033;
+  outline: none;
 }
 
 .selectedDatePanel {
@@ -77,6 +104,13 @@
   color: #cbd5e1;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.calendarLoadingHint {
+  margin: -8px 0 0;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .selectedDatesList {
@@ -109,6 +143,12 @@
   background: rgba(79, 70, 229, 0.18);
   color: #e0e7ff;
   font-size: 13px;
+  font-weight: 700;
+}
+
+.emptyStateText {
+  color: #ffffff;
+  font-size: 14px;
   font-weight: 700;
 }
 

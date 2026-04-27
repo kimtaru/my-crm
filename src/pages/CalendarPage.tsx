@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Calendar,
   type CalendarClassNames,
   type CalendarMarker,
+  type CalendarMonthChangeValue,
   type CalendarRangeDraftValue,
   type CalendarRangeSelectValue,
 } from '@mycrm-ui/components'
@@ -11,9 +12,10 @@ import styles from './CalendarPage.module.css'
 const YEAR_OPTIONS = Array.from({ length: 11 }, (_, index) => 2021 + index)
 const MONTH_OPTIONS = Array.from({ length: 12 }, (_, index) => index + 1)
 const SELECTABLE_START_DATE = '2026-01-01'
-const SELECTABLE_END_DATE = '2026-05-01'
-const SELECTABLE_PERIOD_LABEL = '2026년 1월 1일 ~ 2026년 5월 1일'
+const SELECTABLE_END_DATE = '2026-12-31'
+const SELECTABLE_PERIOD_LABEL = '2026년 1월 1일 ~ 2026년 12월 31일'
 const MULTIPLE_MAX_SELECTION = 3
+const JULY_DISABLED_DATE_KEYS = ['2026-07-16', '2026-07-17', '2026-07-18'] as const
 const MARKED_DATES: CalendarMarker[] = [
   { date: '2026-04-03', color: '#facc15', meta: '창립기념일' },
   { date: '2026-04-10', color: '#fb7185', meta: '정기 점검' },
@@ -58,6 +60,25 @@ const toDateKey = (value: Date | string) => {
   return value.replaceAll('.', '-')
 }
 
+const getShiftedMonth = (year: number, month: number, offset: number): CalendarMonthChangeValue => {
+  const nextDate = new Date(year, month - 1 + offset, 1)
+
+  return {
+    year: nextDate.getFullYear(),
+    month: nextDate.getMonth() + 1,
+  }
+}
+
+const fetchMockDisabledDates = async ({ year, month }: CalendarMonthChangeValue) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+
+  if (year === 2026 && month === 7) {
+    return [...JULY_DISABLED_DATE_KEYS]
+  }
+
+  return []
+}
+
 const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   weekday: styles.calendarWeekday,
   weekdaySun: styles.calendarWeekdaySun,
@@ -84,6 +105,8 @@ export default function CalendarPage() {
   const [selectedMonth, setSelectedMonth] = useState(4)
   const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-04-22')
   const [selectedDateMarkers, setSelectedDateMarkers] = useState<CalendarMarker[]>([])
+  const [disabledDateKeys, setDisabledDateKeys] = useState<string[]>([])
+  const [isDisabledDatesLoading, setIsDisabledDatesLoading] = useState(false)
   const [rangeStart, setRangeStart] = useState<Date | string | null>(null)
   const [rangeEnd, setRangeEnd] = useState<Date | string | null>(null)
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
@@ -92,6 +115,7 @@ export default function CalendarPage() {
     '2026-04-15',
     '2026-04-22',
   ])
+  const disabledDatesRequestIdRef = useRef(0)
 
   const selectedDateLabel = formatDateLabel(selectedDate) ?? '선택된 날짜가 없습니다.'
   const rangeStartLabel = formatDateLabel(rangeStart) ?? '시작일이 없습니다.'
@@ -101,6 +125,7 @@ export default function CalendarPage() {
     : 'hover 중인 날짜가 없습니다.'
   const selectedDatesLabels = selectedDates.map((value) => formatDateLabel(value) ?? '')
   const selectedDateMarkersJson = JSON.stringify(selectedDateMarkers, null, 2)
+  const disabledDateLabels = disabledDateKeys.map((dateKey) => dateKey.replaceAll('-', '.'))
 
   const handleRangeDraftChange = (range: CalendarRangeDraftValue) => {
     setRangeStart(range.startDate)
@@ -131,6 +156,33 @@ export default function CalendarPage() {
     setSelectedDateMarkers(markers)
   }
 
+  useEffect(() => {
+    const requestId = disabledDatesRequestIdRef.current + 1
+    disabledDatesRequestIdRef.current = requestId
+    setIsDisabledDatesLoading(true)
+
+    void (async () => {
+      const nextDisabledDates = await fetchMockDisabledDates({
+        year: selectedYear,
+        month: selectedMonth,
+      })
+
+      if (disabledDatesRequestIdRef.current !== requestId) {
+        return
+      }
+
+      setDisabledDateKeys(nextDisabledDates)
+      setIsDisabledDatesLoading(false)
+    })()
+  }, [selectedMonth, selectedYear])
+
+  const handleCalendarMonthChange = ({ year, month }: CalendarMonthChangeValue) => {
+    setSelectedYear(year)
+    setSelectedMonth(month)
+  }
+
+  const isDisabledByMockApi = (date: Date) => disabledDateKeys.includes(toDateKey(date))
+
   return (
     <section className={styles.page}>
       <div className={styles.header}>
@@ -142,12 +194,32 @@ export default function CalendarPage() {
 
       <div className={styles.calendarWrap}>
         <div className={styles.controls}>
+          <div className={styles.monthNavigation}>
+            <button
+              type="button"
+              className={styles.monthNavButton}
+              onClick={() => handleCalendarMonthChange(getShiftedMonth(selectedYear, selectedMonth, -1))}
+            >
+              이전 달
+            </button>
+            <button
+              type="button"
+              className={styles.monthNavButton}
+              onClick={() => handleCalendarMonthChange(getShiftedMonth(selectedYear, selectedMonth, 1))}
+            >
+              다음 달
+            </button>
+          </div>
           <label className={styles.controlField}>
             <span className={styles.controlLabel}>연도</span>
             <select
               className={styles.controlSelect}
               value={selectedYear}
-              onChange={(event) => setSelectedYear(Number(event.target.value))}
+              onChange={(event) =>
+                handleCalendarMonthChange({
+                  year: Number(event.target.value),
+                  month: selectedMonth,
+                })}
             >
               {YEAR_OPTIONS.map((year) => (
                 <option key={year} value={year}>
@@ -162,7 +234,11 @@ export default function CalendarPage() {
             <select
               className={styles.controlSelect}
               value={selectedMonth}
-              onChange={(event) => setSelectedMonth(Number(event.target.value))}
+              onChange={(event) =>
+                handleCalendarMonthChange({
+                  year: selectedYear,
+                  month: Number(event.target.value),
+                })}
             >
               {MONTH_OPTIONS.map((month) => (
                 <option key={month} value={month}>
@@ -185,6 +261,28 @@ export default function CalendarPage() {
               <p className={styles.helperText}>
                 `markedDates` item은 `date`, `color`, `meta`를 가질 수 있고, 같은 날짜가 여러 번 들어오면 dot도 여러 개 노출됩니다.
               </p>
+              <p className={styles.helperText}>
+                연도/월 변경 UI는 `Calendar` 내부에 두지 않고, 바깥 헤더에서 동일한 월 변경 핸들러를 사용해 제어합니다.
+              </p>
+              <p className={styles.helperText}>
+                월을 변경하면 mock API를 호출하고, 응답은 2초 뒤에 돌아옵니다. 2026년 7월에는 16, 17, 18일이 disabled 됩니다.
+              </p>
+              <span className={styles.selectedDateLabel}>Mock API 상태</span>
+              <strong className={styles.selectedDateValue}>
+                {isDisabledDatesLoading ? '불러오는 중...' : '응답 완료'}
+              </strong>
+              <span className={styles.selectedDateLabel}>현재 비활성 날짜</span>
+              <div className={styles.selectedDatesList}>
+                {disabledDateLabels.length > 0 ? (
+                  disabledDateLabels.map((label) => (
+                    <span key={label} className={styles.selectedDateChip}>
+                      {label}
+                    </span>
+                  ))
+                ) : (
+                  <strong className={styles.emptyStateText}>없음</strong>
+                )}
+              </div>
               <span className={styles.selectedDateLabel}>선택한 날짜</span>
               <strong className={styles.selectedDateValue}>{selectedDateLabel}</strong>
               {selectedDateMarkers.length > 0 ? (
@@ -206,9 +304,12 @@ export default function CalendarPage() {
               selectionMode="single"
               selectedDate={selectedDate}
               markedDates={MARKED_DATES}
+              pending={isDisabledDatesLoading}
               selectableStartDate={SELECTABLE_START_DATE}
               selectableEndDate={SELECTABLE_END_DATE}
+              isDateDisabled={isDisabledByMockApi}
               dateSelectValueType="yyyy-MM-dd"
+              onMonthChange={handleCalendarMonthChange}
               onDateSelect={handleSingleDateSelect}
             />
           </section>
@@ -252,9 +353,12 @@ export default function CalendarPage() {
               rangeEnd={rangeEnd}
               hoveredDate={hoveredDate}
               markedDates={MARKED_DATES}
+              pending={isDisabledDatesLoading}
               selectableStartDate={SELECTABLE_START_DATE}
               selectableEndDate={SELECTABLE_END_DATE}
+              isDateDisabled={isDisabledByMockApi}
               dateSelectValueType="yyyy-MM-dd"
+              onMonthChange={handleCalendarMonthChange}
               onRangeDraftChange={handleRangeDraftChange}
               onRangeSelect={handleRangeSelect}
               onHoverDateChange={setHoveredDate}
@@ -300,10 +404,13 @@ export default function CalendarPage() {
               selectionMode="multiple"
               selectedDates={selectedDates}
               markedDates={MARKED_DATES}
+              pending={isDisabledDatesLoading}
               selectableStartDate={SELECTABLE_START_DATE}
               selectableEndDate={SELECTABLE_END_DATE}
               maxSelectedDates={MULTIPLE_MAX_SELECTION}
+              isDateDisabled={isDisabledByMockApi}
               dateSelectValueType="yyyy-MM-dd"
+              onMonthChange={handleCalendarMonthChange}
               onDateSelect={handleMultipleDateSelect}
             />
           </section>
