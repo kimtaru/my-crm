@@ -14,6 +14,7 @@ const MONTH_OPTIONS = Array.from({ length: 12 }, (_, index) => index + 1)
 const SELECTABLE_START_DATE = '2026-01-01'
 const SELECTABLE_END_DATE = '2026-12-31'
 const SELECTABLE_PERIOD_LABEL = '2026년 1월 1일 ~ 2026년 12월 31일'
+const SINGLE_SELECT_TARGET_DATE_KEY = '2026-08-15'
 const MULTIPLE_MAX_SELECTION = 3
 const JULY_DISABLED_DATE_KEYS = ['2026-07-16', '2026-07-17', '2026-07-18'] as const
 const MARKED_DATES: CalendarMarker[] = [
@@ -102,8 +103,8 @@ const CALENDAR_CLASS_NAMES: CalendarClassNames = {
 
 export default function CalendarPage() {
   const [selectedYear, setSelectedYear] = useState(2026)
-  const [selectedMonth, setSelectedMonth] = useState(4)
-  const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-04-22')
+  const [selectedMonth, setSelectedMonth] = useState(8)
+  const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-08-22')
   const [selectedDateMarkers, setSelectedDateMarkers] = useState<CalendarMarker[]>([])
   const [disabledDateKeys, setDisabledDateKeys] = useState<string[]>([])
   const [isDisabledDatesLoading, setIsDisabledDatesLoading] = useState(false)
@@ -267,6 +268,12 @@ export default function CalendarPage() {
               <p className={styles.helperText}>
                 월을 변경하면 mock API를 호출하고, 응답은 2초 뒤에 돌아옵니다. 2026년 7월에는 16, 17, 18일이 disabled 됩니다.
               </p>
+              <span className={styles.selectedDateLabel}>타겟 날짜</span>
+              <strong className={styles.selectedDateValue}>{SINGLE_SELECT_TARGET_DATE_KEY}</strong>
+              <p className={styles.helperText}>
+                이 데모에서는 <code>getDayClassName</code> 안에서 정확히 <code>2026-08-15</code>를 비교해
+                wrapper class를 붙입니다. 현재 예시는 해당 날짜 숫자에 underline만 주고, 나머지 스타일은 추가하지 않습니다.
+              </p>
               <span className={styles.selectedDateLabel}>Mock API 상태</span>
               <strong className={styles.selectedDateValue}>
                 {isDisabledDatesLoading ? '불러오는 중...' : '응답 완료'}
@@ -310,6 +317,13 @@ export default function CalendarPage() {
               selectableEndDate={SELECTABLE_END_DATE}
               isDateDisabled={isDisabledByMockApi}
               dateSelectValueType="yyyy-MM-dd"
+              getDayClassName={(date) => {
+                if (toDateKey(date) !== SINGLE_SELECT_TARGET_DATE_KEY) {
+                  return undefined
+                }
+
+                return styles.wrapperSingleTargetDay
+              }}
               onMonthChange={handleCalendarMonthChange}
               onDateSelect={handleSingleDateSelect}
             />

@@ -209,6 +209,12 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+.wrapperSingleTargetDay {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  text-decoration-thickness: 2px;
+}
+
 .calendarDayHover {
   width: 35px;
   height: 35px;
