@@ -296,6 +296,7 @@ export default function CalendarPage() {
             <Calendar
               year={selectedYear}
               month={selectedMonth}
+              weekStartsOn={1}
               weekdayLabelType="ko"
               classNames={CALENDAR_CLASS_NAMES}
               showAdjacentMonthDays={true}
@@ -348,6 +349,7 @@ export default function CalendarPage() {
               showAdjacentMonthDays={true}
               showToday={true}
               showHover={true}
+              weekStartsOn={1}
               selectionMode="range"
               rangeStart={rangeStart}
               rangeEnd={rangeEnd}
