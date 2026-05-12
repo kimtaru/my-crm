@@ -23,6 +23,40 @@ function validateCustomerName(v: string): string | null {
   return null
 }
 
+interface BasicTableRow {
+  id: string
+  name: string
+  type: string
+  owner: string
+}
+
+const BASIC_TABLE_COLUMNS: ColumnDef<BasicTableRow>[] = [
+  { key: 'name', label: '고객명', render: (row) => <span className={styles.cellName}>{row.name}</span> },
+  { key: 'type', label: '고객유형', render: (row) => row.type },
+  { key: 'owner', label: '담당자', render: (row) => row.owner },
+  {
+    key: 'reorder',
+    label: '순서변경',
+    width: '96px',
+    align: 'center',
+    render: () => (
+      <span aria-label="행 순서 변경" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M5 3.5H11M5 8H11M5 12.5H11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M3 2.5L1.75 3.75L3 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M13 11L14.25 12.25L13 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    ),
+  },
+]
+
+const BASIC_TABLE_DATA: BasicTableRow[] = [
+  { id: 'basic-1', name: '한아로시스템', type: '대기업', owner: '김철수' },
+  { id: 'basic-2', name: '오션브릿지', type: '중견기업', owner: '박영희' },
+  { id: 'basic-3', name: '넥스트웨이브', type: '스타트업', owner: '이민호' },
+]
+
 const COLUMNS: ColumnDef<Customer>[] = [
   { key: 'CUSTOMER_ID', label: '고객 ID', sortable: true, width: '100px', filterType: 'text',
     render: (c) => <span className={styles.cellId}>{c.CUSTOMER_ID}</span> },
@@ -182,6 +216,37 @@ const TABLE_CLASS_NAMES = {
   cellCopyMenu: styles.cellCopyMenu,
   cellCopyMenuItem: styles.cellCopyMenuItem,
   tooltip: styles.tooltip,
+}
+
+function BasicTable() {
+  const [rows, setRows] = useState(BASIC_TABLE_DATA)
+
+  const handleRowOrderChange = (order: string[]) => {
+    setRows((prev) => {
+      const rowMap = new Map(prev.map((row) => [row.id, row]))
+      return order.map((key) => rowMap.get(key)).filter((row): row is BasicTableRow => row !== undefined)
+    })
+  }
+
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.sectionTitle}>기본 테이블</h2>
+        <span className={styles.pageCount}>최소 구성 샘플</span>
+      </div>
+      <Table
+        columns={BASIC_TABLE_COLUMNS}
+        data={rows}
+        rowKey={(row) => row.id}
+        classNames={TABLE_CLASS_NAMES}
+        rowReorder={{
+          enabled: true,
+          handleColumnKey: 'reorder',
+          onOrderChange: handleRowOrderChange,
+        }}
+      />
+    </section>
+  )
 }
 
 function renderEditCellUI({ value, onChange, onSave, onCancel, error }: EditCellProps) {
@@ -589,6 +654,7 @@ export default function TablePage() {
   return (
     <div className={styles.page}>
       <h1 className={styles.pageTitle} style={{ marginBottom: 20 }}>테이블</h1>
+      <BasicTable />
       <GroupedTable />
       <InfiniteScrollTable />
       <PaginationTable />
