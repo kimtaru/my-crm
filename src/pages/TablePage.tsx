@@ -28,6 +28,7 @@ interface BasicTableRow {
   name: string
   type: string
   owner: string
+  checkupComplete: 'Y' | 'N'
 }
 
 const BASIC_TABLE_COLUMNS: ColumnDef<BasicTableRow>[] = [
@@ -39,22 +40,49 @@ const BASIC_TABLE_COLUMNS: ColumnDef<BasicTableRow>[] = [
     label: '순서변경',
     width: '96px',
     align: 'center',
-    render: () => (
-      <span aria-label="행 순서 변경" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M5 3.5H11M5 8H11M5 12.5H11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M3 2.5L1.75 3.75L3 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M13 11L14.25 12.25L13 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
-    ),
+    render: (row) => row.checkupComplete === 'Y'
+      ? (
+          <span
+            aria-label="행 순서 고정"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minWidth: 42,
+              padding: '3px 8px',
+              borderRadius: 999,
+              backgroundColor: 'rgba(239, 68, 68, 0.14)',
+              color: '#fca5a5',
+              fontSize: 11,
+              fontWeight: 700,
+            }}
+          >
+            고정
+          </span>
+        )
+      : (
+          <span aria-label="행 순서 변경" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5 3.5H11M5 8H11M5 12.5H11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M3 2.5L1.75 3.75L3 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M13 11L14.25 12.25L13 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        ),
   },
 ]
 
 const BASIC_TABLE_DATA: BasicTableRow[] = [
-  { id: 'basic-1', name: '한아로시스템', type: '대기업', owner: '김철수' },
-  { id: 'basic-2', name: '오션브릿지', type: '중견기업', owner: '박영희' },
-  { id: 'basic-3', name: '넥스트웨이브', type: '스타트업', owner: '이민호' },
+  { id: 'basic-2', name: '오션브릿지', type: '중견기업', owner: '박영희', checkupComplete: 'Y' },
+  { id: 'basic-5', name: '리버스톤', type: '대기업', owner: '최현우', checkupComplete: 'Y' },
+  { id: 'basic-8', name: '메트로링크', type: '중소기업', owner: '한지민', checkupComplete: 'Y' },
+  { id: 'basic-1', name: '한아로시스템', type: '대기업', owner: '김철수', checkupComplete: 'N' },
+  { id: 'basic-3', name: '넥스트웨이브', type: '스타트업', owner: '이민호', checkupComplete: 'N' },
+  { id: 'basic-4', name: '블루에셋', type: '중소기업', owner: '정수민', checkupComplete: 'N' },
+  { id: 'basic-6', name: '그린라이트', type: '스타트업', owner: '장서연', checkupComplete: 'N' },
+  { id: 'basic-7', name: '스카이큐브', type: '중견기업', owner: '윤도현', checkupComplete: 'N' },
+  { id: 'basic-9', name: '오로라웍스', type: '스타트업', owner: '임가은', checkupComplete: 'N' },
+  { id: 'basic-10', name: '퍼스트코어', type: '대기업', owner: '서민재', checkupComplete: 'N' },
 ]
 
 const COLUMNS: ColumnDef<Customer>[] = [
@@ -234,6 +262,9 @@ function BasicTable() {
         <h2 className={styles.sectionTitle}>기본 테이블</h2>
         <span className={styles.pageCount}>최소 구성 샘플</span>
       </div>
+      <p style={{ margin: '0 0 12px', color: '#94a3b8', fontSize: 13 }}>
+        상단의 `고정` 행들은 `checkupComplete === 'Y'`로 설정되어 있어 순서 변경이 불가능합니다.
+      </p>
       <Table
         columns={BASIC_TABLE_COLUMNS}
         data={rows}
@@ -243,6 +274,7 @@ function BasicTable() {
           enabled: true,
           handleColumnKey: 'reorder',
           onOrderChange: handleRowOrderChange,
+          isRowReorderable: (row) => row.checkupComplete !== 'Y',
         }}
       />
     </section>
