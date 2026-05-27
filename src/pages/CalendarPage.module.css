@@ -28,6 +28,176 @@
   gap: 24px;
 }
 
+.datePickerSection {
+  display: grid;
+  gap: 16px;
+  max-width: 1320px;
+  padding: 18px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background-color: rgba(15, 23, 42, 0.78);
+}
+
+.datePickerHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.datePickerDescription {
+  margin: 8px 0 0;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.datePickerCases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.datePickerCaseCard {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  min-height: 190px;
+  padding: 16px;
+  border: 1px solid rgba(51, 65, 85, 0.92);
+  border-radius: 10px;
+  background-color: rgba(2, 6, 23, 0.28);
+}
+
+.datePickerCaseTitle {
+  margin: 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.datePickerCaseDescription {
+  margin: 0;
+  min-height: 42px;
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.datePickerField {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.datePickerRoot {
+  --mycrm-ui-date-picker-trigger-height: 42px;
+  --mycrm-ui-date-picker-background: #0f172a;
+  --mycrm-ui-date-picker-border-color: #334155;
+  width: 100%;
+}
+
+.datePickerTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 220px;
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px 0 14px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.datePickerTrigger:hover,
+.datePickerTrigger:focus-visible {
+  border-color: #64748b;
+  background-color: #162033;
+  outline: none;
+}
+
+.datePickerTriggerValue {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.datePickerPlaceholder {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #94a3b8;
+}
+
+.datePickerIcon {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.datePickerClearButton {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background-color: transparent;
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.datePickerClearButton:hover:not(:disabled),
+.datePickerClearButton:focus-visible:not(:disabled) {
+  border-color: #64748b;
+  color: #ffffff;
+  outline: none;
+}
+
+.datePickerClearButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.datePickerPopover {
+  position: absolute;
+  z-index: 20;
+  top: calc(var(--mycrm-ui-date-picker-trigger-height) + 10px);
+  left: 0;
+  width: min(360px, calc(100vw - 48px));
+  padding: 16px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background-color: #0f172a;
+  box-shadow: 0 18px 45px rgba(2, 6, 23, 0.4);
+}
+
+.datePickerPopoverHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.datePickerPopoverTitle {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .demoGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -60,6 +230,9 @@
 }
 
 .monthNavButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 40px;
   padding: 0 14px;
   border: 1px solid #334155;
@@ -68,6 +241,7 @@
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
@@ -301,5 +475,16 @@
 @media (max-width: 920px) {
   .demoGrid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .datePickerHeader {
+    display: grid;
+  }
+
+  .datePickerTrigger,
+  .datePickerClearButton {
+    width: 100%;
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Calendar,
+  DatePicker,
   type CalendarClassNames,
   type CalendarMarker,
   type CalendarMonthChangeValue,
@@ -15,8 +16,13 @@ const SELECTABLE_START_DATE = '2026-01-01'
 const SELECTABLE_END_DATE = '2026-12-31'
 const SELECTABLE_PERIOD_LABEL = '2026년 1월 1일 ~ 2026년 12월 31일'
 const SINGLE_SELECT_TARGET_DATE_KEY = '2026-08-15'
+const DATE_PICKER_DISABLED_DATE_KEY = '2026-08-04'
+const EVENT_DATE_PICKER_EVENT_DATE_KEY = '2026-09-20'
 const MULTIPLE_MAX_SELECTION = 3
 const JULY_DISABLED_DATE_KEYS = ['2026-07-16', '2026-07-17', '2026-07-18'] as const
+const EVENT_DATE_PICKER_MARKED_DATES: CalendarMarker[] = [
+  { date: EVENT_DATE_PICKER_EVENT_DATE_KEY, color: '#facc15', meta: '창립5주년행사' },
+]
 const MARKED_DATES: CalendarMarker[] = [
   { date: '2026-04-03', color: '#facc15', meta: '창립기념일' },
   { date: '2026-04-10', color: '#fb7185', meta: '정기 점검' },
@@ -80,6 +86,20 @@ const fetchMockDisabledDates = async ({ year, month }: CalendarMonthChangeValue)
   return []
 }
 
+const fetchMockDatePickerDisabledDates = async ({ year, month }: CalendarMonthChangeValue) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+
+  if (year === 2026 && month === 8) {
+    return [DATE_PICKER_DISABLED_DATE_KEY]
+  }
+
+  if (year === 2026 && month === 7) {
+    return [...JULY_DISABLED_DATE_KEYS]
+  }
+
+  return []
+}
+
 const CALENDAR_CLASS_NAMES: CalendarClassNames = {
   weekday: styles.calendarWeekday,
   weekdaySun: styles.calendarWeekdaySun,
@@ -107,7 +127,29 @@ export default function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState<Date | string | null>('2026-08-22')
   const [selectedDateMarkers, setSelectedDateMarkers] = useState<CalendarMarker[]>([])
   const [disabledDateKeys, setDisabledDateKeys] = useState<string[]>([])
-  const [isDisabledDatesLoading, setIsDisabledDatesLoading] = useState(false)
+  const [isDisabledDatesLoading, setIsDisabledDatesLoading] = useState(true)
+  const [datePickerMonth, setDatePickerMonth] = useState<CalendarMonthChangeValue>({ year: 2026, month: 8 })
+  const [datePickerDisabledDateKeys, setDatePickerDisabledDateKeys] = useState<string[]>([])
+  const [isDatePickerDisabledDatesLoading, setIsDatePickerDisabledDatesLoading] = useState(true)
+  const [eventDatePickerResult, setEventDatePickerResult] = useState<{
+    selectedDate: Date | string | null
+    events: CalendarMarker[]
+  }>({
+    selectedDate: null,
+    events: [],
+  })
+  const [rangeDatePickerResult, setRangeDatePickerResult] = useState<{
+    startDate: Date | string | null
+    endDate: Date | string | null
+  }>({
+    startDate: '2026-09-10',
+    endDate: '2026-09-20',
+  })
+  const [multipleDatePickerResult, setMultipleDatePickerResult] = useState<{
+    selectedDates: Array<Date | string>
+  }>({
+    selectedDates: ['2026-09-10', '2026-09-20'],
+  })
   const [rangeStart, setRangeStart] = useState<Date | string | null>(null)
   const [rangeEnd, setRangeEnd] = useState<Date | string | null>(null)
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
@@ -117,6 +159,7 @@ export default function CalendarPage() {
     '2026-04-22',
   ])
   const disabledDatesRequestIdRef = useRef(0)
+  const datePickerDisabledDatesRequestIdRef = useRef(0)
 
   const selectedDateLabel = formatDateLabel(selectedDate) ?? '선택된 날짜가 없습니다.'
   const rangeStartLabel = formatDateLabel(rangeStart) ?? '시작일이 없습니다.'
@@ -160,7 +203,6 @@ export default function CalendarPage() {
   useEffect(() => {
     const requestId = disabledDatesRequestIdRef.current + 1
     disabledDatesRequestIdRef.current = requestId
-    setIsDisabledDatesLoading(true)
 
     void (async () => {
       const nextDisabledDates = await fetchMockDisabledDates({
@@ -177,12 +219,43 @@ export default function CalendarPage() {
     })()
   }, [selectedMonth, selectedYear])
 
+  useEffect(() => {
+    const requestId = datePickerDisabledDatesRequestIdRef.current + 1
+    datePickerDisabledDatesRequestIdRef.current = requestId
+
+    void (async () => {
+      const nextDisabledDates = await fetchMockDatePickerDisabledDates({
+        year: datePickerMonth.year,
+        month: datePickerMonth.month,
+      })
+
+      if (datePickerDisabledDatesRequestIdRef.current !== requestId) {
+        return
+      }
+
+      setDatePickerDisabledDateKeys(nextDisabledDates)
+      setIsDatePickerDisabledDatesLoading(false)
+    })()
+  }, [datePickerMonth.month, datePickerMonth.year])
+
   const handleCalendarMonthChange = ({ year, month }: CalendarMonthChangeValue) => {
+    setIsDisabledDatesLoading(true)
     setSelectedYear(year)
     setSelectedMonth(month)
   }
 
+  const handleDatePickerMonthChange = ({ year, month }: CalendarMonthChangeValue) => {
+    setIsDatePickerDisabledDatesLoading(true)
+    setDatePickerMonth({ year, month })
+  }
+
   const isDisabledByMockApi = (date: Date) => disabledDateKeys.includes(toDateKey(date))
+  const isDatePickerDateDisabled = (date: Date) => datePickerDisabledDateKeys.includes(toDateKey(date))
+  const isSeptemberWednesdayDisabled = (date: Date) =>
+    date.getFullYear() === 2026 && date.getMonth() === 8 && date.getDay() === 3
+  const eventDatePickerResultJson = JSON.stringify(eventDatePickerResult, null, 2)
+  const rangeDatePickerResultJson = JSON.stringify(rangeDatePickerResult, null, 2)
+  const multipleDatePickerResultJson = JSON.stringify(multipleDatePickerResult, null, 2)
 
   return (
     <section className={styles.page}>
@@ -194,6 +267,276 @@ export default function CalendarPage() {
       </div>
 
       <div className={styles.calendarWrap}>
+        <section className={styles.datePickerSection} aria-labelledby="date-picker-title">
+          <div className={styles.datePickerHeader}>
+            <h2 id="date-picker-title" className={styles.demoTitle}>DatePicker</h2>
+            <p className={styles.datePickerDescription}>
+              케이스별 mycrm-ui DatePicker 렌더링 예시입니다.
+            </p>
+          </div>
+
+          <div className={styles.datePickerCases}>
+            <section className={styles.datePickerCaseCard}>
+              <h3 className={styles.datePickerCaseTitle}>기존 DatePicker</h3>
+              <p className={styles.datePickerCaseDescription}>
+                월 변경 시 mock API를 호출하고 응답 전에는 pending 상태가 표시됩니다.
+              </p>
+              <DatePicker
+                name="apiDate"
+                theme="dark"
+                defaultValue="2026-08-22"
+                placeholder="날짜를 선택하세요"
+                clearLabel="지우기"
+                previousMonthLabel="이전 달"
+                nextMonthLabel="다음 달"
+                popoverLabel="API 날짜 선택"
+                weekStartsOn={1}
+                weekdayLabelType="ko"
+                calendarClassNames={CALENDAR_CLASS_NAMES}
+                showAdjacentMonthDays={true}
+                showToday={true}
+                showHover={true}
+                markedDates={MARKED_DATES}
+                selectableStartDate={SELECTABLE_START_DATE}
+                selectableEndDate={SELECTABLE_END_DATE}
+                pending={isDatePickerDisabledDatesLoading}
+                isDateDisabled={isDatePickerDateDisabled}
+                dateSelectValueType="yyyy-MM-dd"
+                className={styles.datePickerRoot}
+                classNames={{
+                  field: styles.datePickerField,
+                  trigger: styles.datePickerTrigger,
+                  triggerValue: styles.datePickerTriggerValue,
+                  placeholder: styles.datePickerPlaceholder,
+                  icon: styles.datePickerIcon,
+                  clearButton: styles.datePickerClearButton,
+                  popover: styles.datePickerPopover,
+                  popoverHeader: styles.datePickerPopoverHeader,
+                  popoverTitle: styles.datePickerPopoverTitle,
+                  monthButton: styles.monthNavButton,
+                }}
+                onMonthChange={handleDatePickerMonthChange}
+              />
+            </section>
+
+            <section className={styles.datePickerCaseCard}>
+              <h3 className={styles.datePickerCaseTitle}>일반 DatePicker</h3>
+              <p className={styles.datePickerCaseDescription}>
+                API 호출 없이 선택 가능 기간과 기본 스타일만 적용한 DatePicker입니다.
+              </p>
+              <DatePicker
+                name="plainDate"
+                theme="light"
+                defaultValue="2026-08-22"
+                placeholder="날짜를 선택하세요"
+                clearLabel="지우기"
+                previousMonthLabel="이전 달"
+                nextMonthLabel="다음 달"
+                popoverLabel="일반 날짜 선택"
+                weekStartsOn={1}
+                weekdayLabelType="ko"
+                calendarClassNames={CALENDAR_CLASS_NAMES}
+                showAdjacentMonthDays={true}
+                showToday={true}
+                showHover={true}
+                selectableStartDate={SELECTABLE_START_DATE}
+                selectableEndDate={SELECTABLE_END_DATE}
+                dateSelectValueType="yyyy-MM-dd"
+                className={styles.datePickerRoot}
+                classNames={{
+                  field: styles.datePickerField,
+                  trigger: styles.datePickerTrigger,
+                  triggerValue: styles.datePickerTriggerValue,
+                  placeholder: styles.datePickerPlaceholder,
+                  icon: styles.datePickerIcon,
+                  clearButton: styles.datePickerClearButton,
+                  popover: styles.datePickerPopover,
+                  popoverHeader: styles.datePickerPopoverHeader,
+                  popoverTitle: styles.datePickerPopoverTitle,
+                  monthButton: styles.monthNavButton,
+                }}
+              />
+            </section>
+
+            <section className={styles.datePickerCaseCard}>
+              <h3 className={styles.datePickerCaseTitle}>수요일 비활성 DatePicker</h3>
+              <p className={styles.datePickerCaseDescription}>
+                2026년 9월에 속한 모든 수요일만 선택할 수 없도록 막습니다.
+              </p>
+              <DatePicker
+                name="disabledWednesdayDate"
+                theme="dark"
+                defaultValue="2026-09-10"
+                placeholder="날짜를 선택하세요"
+                clearLabel="지우기"
+                previousMonthLabel="이전 달"
+                nextMonthLabel="다음 달"
+                popoverLabel="수요일 비활성 날짜 선택"
+                weekStartsOn={1}
+                weekdayLabelType="ko"
+                calendarClassNames={CALENDAR_CLASS_NAMES}
+                showAdjacentMonthDays={true}
+                showToday={true}
+                showHover={true}
+                selectableStartDate={SELECTABLE_START_DATE}
+                selectableEndDate={SELECTABLE_END_DATE}
+                isDateDisabled={isSeptemberWednesdayDisabled}
+                dateSelectValueType="yyyy-MM-dd"
+                className={styles.datePickerRoot}
+                classNames={{
+                  field: styles.datePickerField,
+                  trigger: styles.datePickerTrigger,
+                  triggerValue: styles.datePickerTriggerValue,
+                  placeholder: styles.datePickerPlaceholder,
+                  icon: styles.datePickerIcon,
+                  clearButton: styles.datePickerClearButton,
+                  popover: styles.datePickerPopover,
+                  popoverHeader: styles.datePickerPopoverHeader,
+                  popoverTitle: styles.datePickerPopoverTitle,
+                  monthButton: styles.monthNavButton,
+                }}
+              />
+            </section>
+
+            <section className={styles.datePickerCaseCard}>
+              <h3 className={styles.datePickerCaseTitle}>이벤트 반환 DatePicker</h3>
+              <p className={styles.datePickerCaseDescription}>
+                2026년 9월 20일 선택 시 날짜와 이벤트 marker를 아래 JSON으로 렌더링합니다.
+              </p>
+              <DatePicker
+                name="eventDate"
+                theme="light"
+                defaultValue="2026-09-01"
+                placeholder="날짜를 선택하세요"
+                clearLabel="지우기"
+                previousMonthLabel="이전 달"
+                nextMonthLabel="다음 달"
+                popoverLabel="이벤트 날짜 선택"
+                weekStartsOn={1}
+                weekdayLabelType="ko"
+                calendarClassNames={CALENDAR_CLASS_NAMES}
+                showAdjacentMonthDays={true}
+                showToday={true}
+                showHover={true}
+                markedDates={EVENT_DATE_PICKER_MARKED_DATES}
+                selectableStartDate={SELECTABLE_START_DATE}
+                selectableEndDate={SELECTABLE_END_DATE}
+                dateSelectValueType="yyyy-MM-dd"
+                className={styles.datePickerRoot}
+                classNames={{
+                  field: styles.datePickerField,
+                  trigger: styles.datePickerTrigger,
+                  triggerValue: styles.datePickerTriggerValue,
+                  placeholder: styles.datePickerPlaceholder,
+                  icon: styles.datePickerIcon,
+                  clearButton: styles.datePickerClearButton,
+                  popover: styles.datePickerPopover,
+                  popoverHeader: styles.datePickerPopoverHeader,
+                  popoverTitle: styles.datePickerPopoverTitle,
+                  monthButton: styles.monthNavButton,
+                }}
+                onChange={(date, events) => {
+                  setEventDatePickerResult({
+                    selectedDate: date,
+                    events,
+                  })
+                }}
+              />
+              <pre className={styles.markerMetaJson}>{eventDatePickerResultJson}</pre>
+            </section>
+
+            <section className={styles.datePickerCaseCard}>
+              <h3 className={styles.datePickerCaseTitle}>Range DatePicker</h3>
+              <p className={styles.datePickerCaseDescription}>
+                기존 DatePicker에 <code>range</code> 속성을 주면 시작일과 종료일을 선택합니다.
+              </p>
+              <DatePicker
+                range
+                name="rangeDate"
+                theme="dark"
+                defaultRangeStart="2026-09-10"
+                defaultRangeEnd="2026-09-20"
+                placeholder="기간을 선택하세요"
+                clearLabel="지우기"
+                previousMonthLabel="이전 달"
+                nextMonthLabel="다음 달"
+                popoverLabel="기간 선택"
+                weekStartsOn={1}
+                weekdayLabelType="ko"
+                calendarClassNames={CALENDAR_CLASS_NAMES}
+                showAdjacentMonthDays={true}
+                showToday={true}
+                showHover={true}
+                selectableStartDate={SELECTABLE_START_DATE}
+                selectableEndDate={SELECTABLE_END_DATE}
+                dateSelectValueType="yyyy-MM-dd"
+                className={styles.datePickerRoot}
+                classNames={{
+                  field: styles.datePickerField,
+                  trigger: styles.datePickerTrigger,
+                  triggerValue: styles.datePickerTriggerValue,
+                  placeholder: styles.datePickerPlaceholder,
+                  icon: styles.datePickerIcon,
+                  clearButton: styles.datePickerClearButton,
+                  popover: styles.datePickerPopover,
+                  popoverHeader: styles.datePickerPopoverHeader,
+                  popoverTitle: styles.datePickerPopoverTitle,
+                  monthButton: styles.monthNavButton,
+                }}
+                onRangeChange={(range) => {
+                  setRangeDatePickerResult(range)
+                }}
+              />
+              <pre className={styles.markerMetaJson}>{rangeDatePickerResultJson}</pre>
+            </section>
+
+            <section className={styles.datePickerCaseCard}>
+              <h3 className={styles.datePickerCaseTitle}>Multiple DatePicker</h3>
+              <p className={styles.datePickerCaseDescription}>
+                기존 DatePicker에 <code>multi</code> 속성을 주면 여러 날짜를 토글 선택합니다.
+              </p>
+              <DatePicker
+                multi
+                name="multipleDate"
+                theme="light"
+                defaultSelectedDates={['2026-09-10', '2026-09-20']}
+                placeholder="날짜를 여러 개 선택하세요"
+                clearLabel="지우기"
+                previousMonthLabel="이전 달"
+                nextMonthLabel="다음 달"
+                popoverLabel="복수 날짜 선택"
+                weekStartsOn={1}
+                weekdayLabelType="ko"
+                calendarClassNames={CALENDAR_CLASS_NAMES}
+                showAdjacentMonthDays={true}
+                showToday={true}
+                showHover={true}
+                selectableStartDate={SELECTABLE_START_DATE}
+                selectableEndDate={SELECTABLE_END_DATE}
+                maxSelectedDates={MULTIPLE_MAX_SELECTION}
+                dateSelectValueType="yyyy-MM-dd"
+                className={styles.datePickerRoot}
+                classNames={{
+                  field: styles.datePickerField,
+                  trigger: styles.datePickerTrigger,
+                  triggerValue: styles.datePickerTriggerValue,
+                  placeholder: styles.datePickerPlaceholder,
+                  icon: styles.datePickerIcon,
+                  clearButton: styles.datePickerClearButton,
+                  popover: styles.datePickerPopover,
+                  popoverHeader: styles.datePickerPopoverHeader,
+                  popoverTitle: styles.datePickerPopoverTitle,
+                  monthButton: styles.monthNavButton,
+                }}
+                onMultipleChange={(value) => {
+                  setMultipleDatePickerResult(value)
+                }}
+              />
+              <pre className={styles.markerMetaJson}>{multipleDatePickerResultJson}</pre>
+            </section>
+          </div>
+        </section>
+
         <div className={styles.controls}>
           <div className={styles.monthNavigation}>
             <button
